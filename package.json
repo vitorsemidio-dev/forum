@@ -17,6 +17,7 @@
   "homepage": "https://github.com/vitorsemidio-dev/forum#readme",
   "devDependencies": {
     "@types/node": "20.1.0",
-    "typescript": "5.0.4"
+    "typescript": "5.0.4",
+    "vitest": "0.31.0"
   }
 }
