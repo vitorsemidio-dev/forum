@@ -14,5 +14,9 @@
   "bugs": {
     "url": "https://github.com/vitorsemidio-dev/forum/issues"
   },
-  "homepage": "https://github.com/vitorsemidio-dev/forum#readme"
+  "homepage": "https://github.com/vitorsemidio-dev/forum#readme",
+  "devDependencies": {
+    "@types/node": "20.1.0",
+    "typescript": "5.0.4"
+  }
 }
