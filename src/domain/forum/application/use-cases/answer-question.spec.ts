@@ -1,20 +1,26 @@
-import { AnswersRepository } from '@/domain/forum/application/repositories/answers-repository'
 import { AnswerQuestionUseCase } from '@/domain/forum/application/use-cases/answer-question'
-import { Answer } from '@/domain/forum/enterprise/entities/answer'
+import { InMemoryAnswersRepository } from 'test/in-memory-answers-repository'
 
-const fakeAnswersRepository: AnswersRepository = {
-  create: async (answer: Answer) => {},
-}
+let inMemoryAnswersRepository: InMemoryAnswersRepository
+let sut: AnswerQuestionUseCase
 
-test('create an answer', async ({ expect }) => {
-  const answerQuestionUseCase = new AnswerQuestionUseCase(fakeAnswersRepository)
-
-  const { answer } = await answerQuestionUseCase.execute({
-    instructorId: 'any_instructor_id',
-    questionId: 'any_question_id',
-    content: 'any_content',
+describe('AnswerQuestionUseCase', () => {
+  beforeEach(() => {
+    inMemoryAnswersRepository = new InMemoryAnswersRepository()
+    sut = new AnswerQuestionUseCase(inMemoryAnswersRepository)
   })
 
-  expect(answer.id.toValue()).toBeTruthy()
-  expect(answer.content).toBe('any_content')
+  it('create an answer', async ({ expect }) => {
+    const { answer } = await sut.execute({
+      instructorId: 'any_instructor_id',
+      questionId: 'any_question_id',
+      content: 'any_content',
+    })
+
+    expect(answer.id.toValue()).toBeTruthy()
+    expect(answer.content).toBe('any_content')
+    expect(inMemoryAnswersRepository.items[0].id.toValue()).toBe(
+      answer.id.toValue(),
+    )
+  })
 })
