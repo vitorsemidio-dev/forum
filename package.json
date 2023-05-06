@@ -22,5 +22,8 @@
     "@types/node": "20.1.0",
     "typescript": "5.0.4",
     "vitest": "0.31.0"
+  },
+  "dependencies": {
+    "dayjs": "1.11.7"
   }
 }
