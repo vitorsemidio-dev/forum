@@ -4,17 +4,20 @@ import {
   QuestionProps,
 } from '@/domain/forum/enterprise/entities/question'
 import { Slug } from '@/domain/forum/enterprise/entities/value-objects/slug'
+import { fakerPtBr } from 'test/utils/faker'
 
 export function makeQuestion(
   override: Partial<QuestionProps> = {},
   id?: UniqueEntityId,
 ): Question {
+  const title = fakerPtBr.lorem.sentence()
+  const slug = Slug.createFromText(title)
   const question = Question.create(
     {
-      title: 'Example Question',
-      slug: Slug.create('example-question'),
-      authorId: new UniqueEntityId('any_author_id'),
-      content: 'lorem ipsum dolor sit amet',
+      title,
+      slug,
+      authorId: new UniqueEntityId(),
+      content: fakerPtBr.lorem.text(),
       ...override,
     },
     id,
