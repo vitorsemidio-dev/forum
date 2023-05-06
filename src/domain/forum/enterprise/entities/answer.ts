@@ -2,7 +2,7 @@ import { Entity } from '@/core/entities/entity'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 
-interface AnswerProps {
+export interface AnswerProps {
   content: string
   authorId: UniqueEntityId
   questionId: UniqueEntityId
@@ -23,6 +23,10 @@ export class Answer extends Entity<AnswerProps> {
       id,
     )
     return answer
+  }
+
+  get authorId() {
+    return this.props.authorId
   }
 
   get content() {
