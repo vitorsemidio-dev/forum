@@ -29,6 +29,10 @@ export class Answer extends Entity<AnswerProps> {
     return this.props.authorId
   }
 
+  get questionId() {
+    return this.props.questionId
+  }
+
   get content() {
     return this.props.content
   }
