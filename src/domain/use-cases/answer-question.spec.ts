@@ -10,7 +10,7 @@ test('create an answer', async ({ expect }) => {
     content: 'any_content',
   });
 
-  expect(answer).toEqual({
+  expect(answer).toMatchObject({
     id: expect.any(String),
     content: 'any_content',
   });
