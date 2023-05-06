@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
-import { Slug } from '@/domain/entities/value-objects/slug'
+import { Slug } from '@/domain/forum/enterprise/entities/value-objects/slug'
 
 interface QuestionProps {
   authorId: UniqueEntityId
