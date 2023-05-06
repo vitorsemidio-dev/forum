@@ -1,15 +1,15 @@
-import { UniqueEntityId } from '@/core/entities/unique-entity-id';
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 
 export class Entity<T = any> {
-  private _id: UniqueEntityId;
-  protected props: T;
+  private _id: UniqueEntityId
+  protected props: T
 
   get id() {
-    return this._id;
+    return this._id
   }
 
   protected constructor(props: T, id?: UniqueEntityId) {
-    this.props = props;
-    this._id = id ?? new UniqueEntityId();
+    this.props = props
+    this._id = id ?? new UniqueEntityId()
   }
 }
