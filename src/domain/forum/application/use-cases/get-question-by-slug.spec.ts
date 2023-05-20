@@ -1,4 +1,5 @@
 import { GetQuestionBySlugUseCase } from '@/domain/forum/application/use-cases/get-question-by-slug'
+import { Question } from '@/domain/forum/enterprise/entities/question'
 import { Slug } from '@/domain/forum/enterprise/entities/value-objects/slug'
 import { makeQuestion } from 'test/factories/make-question'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
@@ -19,11 +20,12 @@ describe('GetQuestionBySlug', () => {
     })
     await inMemoryQuestionsRepository.create(newQuestion)
 
-    const { question } = await sut.execute({
+    const result = await sut.execute({
       slug: 'existing-question',
     })
 
-    expect(question).toBeTruthy()
+    expect(result.isRight()).toBe(true)
+    const { question } = result.value as { question: Question }
     expect(question.title).toBe('Existing Question')
     expect(question.slug.value).toBe('existing-question')
   })

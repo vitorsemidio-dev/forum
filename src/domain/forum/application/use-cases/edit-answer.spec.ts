@@ -2,6 +2,7 @@ import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { EditAnswerUseCase } from '@/domain/forum/application/use-cases/edit-answer'
 import { makeAnswer } from 'test/factories/make-answer'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
+import { NotAllowedError } from '@/domain/forum/application/use-cases/errors/not-allowed.error'
 
 let inMemoryAnswersRepository: InMemoryAnswersRepository
 let sut: EditAnswerUseCase
@@ -23,12 +24,13 @@ describe('EditAnswerUseCase', () => {
     await inMemoryAnswersRepository.create(newAnswer1)
     await inMemoryAnswersRepository.create(newAnswer2)
 
-    await sut.execute({
+    const result = await sut.execute({
       answerId: 'answer-id-1',
       authorId: 'author-id-1',
       content: 'new content updated',
     })
 
+    expect(result.isRight()).toBe(true)
     expect(inMemoryAnswersRepository.items[0]).toMatchObject({
       content: 'new content updated',
     })
@@ -45,12 +47,13 @@ describe('EditAnswerUseCase', () => {
     await inMemoryAnswersRepository.create(newAnswer1)
     await inMemoryAnswersRepository.create(newAnswer2)
 
-    const output = sut.execute({
+    const result = await sut.execute({
       answerId: 'answer-id-1',
       authorId: 'author-id-2',
       content: 'new content updated',
     })
 
-    await expect(output).rejects.toThrow('Not allowed.')
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toEqual(new NotAllowedError('Not allowed.'))
   })
 })

@@ -11,16 +11,17 @@ describe('AnswerQuestionUseCase', () => {
   })
 
   it('create an answer', async ({ expect }) => {
-    const { answer } = await sut.execute({
+    const result = await sut.execute({
       instructorId: 'any_instructor_id',
       questionId: 'any_question_id',
       content: 'any_content',
     })
 
-    expect(answer.id.toValue()).toBeTruthy()
-    expect(answer.content).toBe('any_content')
+    expect(result.isRight()).toBe(true)
+    expect(result.value?.answer.id.toValue()).toBeTruthy()
+    expect(result.value?.answer.content).toBe('any_content')
     expect(inMemoryAnswersRepository.items[0].id.toValue()).toBe(
-      answer.id.toValue(),
+      result.value?.answer.id.toValue(),
     )
   })
 })
