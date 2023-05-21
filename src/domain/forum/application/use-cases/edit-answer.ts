@@ -1,8 +1,8 @@
 import { Either, left, right } from '@/core/either'
 import { AnswersRepository } from '@/domain/forum/application/repositories/answers-repository'
-import { Answer } from '@/domain/forum/enterprise/entities/answer'
-import { ResourceNotFoundError } from '@/domain/forum/application/use-cases/errors/resource-not-found.error'
 import { NotAllowedError } from '@/domain/forum/application/use-cases/errors/not-allowed.error'
+import { ResourceNotFoundError } from '@/domain/forum/application/use-cases/errors/resource-not-found.error'
+import { Answer } from '@/domain/forum/enterprise/entities/answer'
 
 interface EditAnswerUseCaseInput {
   authorId: string

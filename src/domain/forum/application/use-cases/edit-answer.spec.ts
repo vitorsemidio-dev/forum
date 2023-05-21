@@ -1,8 +1,8 @@
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { EditAnswerUseCase } from '@/domain/forum/application/use-cases/edit-answer'
+import { NotAllowedError } from '@/domain/forum/application/use-cases/errors/not-allowed.error'
 import { makeAnswer } from 'test/factories/make-answer'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
-import { NotAllowedError } from '@/domain/forum/application/use-cases/errors/not-allowed.error'
 
 let inMemoryAnswersRepository: InMemoryAnswersRepository
 let sut: EditAnswerUseCase

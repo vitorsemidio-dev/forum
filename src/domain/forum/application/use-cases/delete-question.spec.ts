@@ -1,8 +1,8 @@
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { DeleteQuestionUseCase } from '@/domain/forum/application/use-cases/delete-question'
+import { NotAllowedError } from '@/domain/forum/application/use-cases/errors/not-allowed.error'
 import { makeQuestion } from 'test/factories/make-question'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
-import { NotAllowedError } from '@/domain/forum/application/use-cases/errors/not-allowed.error'
 
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
 let sut: DeleteQuestionUseCase

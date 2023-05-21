@@ -8,5 +8,10 @@
   },
   "rules": {
     "no-useless-constructor": "off"
+  },
+  "settings": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
   }
 }

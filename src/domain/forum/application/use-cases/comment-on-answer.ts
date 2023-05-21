@@ -2,8 +2,8 @@ import { Either, left, right } from '@/core/either'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { AnswerCommentsRepository } from '@/domain/forum/application/repositories/answer-comments-repository'
 import { AnswersRepository } from '@/domain/forum/application/repositories/answers-repository'
-import { AnswerComment } from '@/domain/forum/enterprise/entities/answer-comment'
 import { ResourceNotFoundError } from '@/domain/forum/application/use-cases/errors/resource-not-found.error'
+import { AnswerComment } from '@/domain/forum/enterprise/entities/answer-comment'
 
 interface CommentOnAnswerUseCaseRequest {
   authorId: string
