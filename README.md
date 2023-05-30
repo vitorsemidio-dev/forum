@@ -49,8 +49,6 @@ npm run test
 
 Utilize o comando a seguir para executar os testes unitário em modo watch
 
-````bash
-
 ```bash
 npm run test:watch
 ````
