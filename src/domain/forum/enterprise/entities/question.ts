@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 
-import { Entity } from '@/core/entities/entity'
+import { AggregateRoot } from '@/core/entities/aggregate-root'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 import { Slug } from '@/domain/forum/enterprise/entities/value-objects/slug'
@@ -15,7 +15,7 @@ export interface QuestionProps {
   title: string
 }
 
-export class Question extends Entity<QuestionProps> {
+export class Question extends AggregateRoot<QuestionProps> {
   static create(
     props: Optional<QuestionProps, 'createdAt' | 'slug'>,
     id?: UniqueEntityId,
