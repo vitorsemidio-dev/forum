@@ -15,9 +15,17 @@ describe('CreateQuestionUseCase', () => {
       authorId: 'any_author_id',
       content: 'any_content',
       title: 'any_title',
+      attachmentIds: ['any_attachment_id'],
     })
 
+    const question = inMemoryQuestionsRepository.items[0]
+    const questionAttachments = question.attachments
+
     expect(result.isRight()).toBe(true)
-    expect(inMemoryQuestionsRepository.items[0]).toBe(result.value?.question)
+    expect(question).toBe(result.value?.question)
+    expect(questionAttachments.length).toBe(1)
+    expect(questionAttachments[0].attachmentId.toString()).toBe(
+      'any_attachment_id',
+    )
   })
 })
