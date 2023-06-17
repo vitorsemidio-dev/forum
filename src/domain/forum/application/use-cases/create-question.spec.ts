@@ -19,7 +19,7 @@ describe('CreateQuestionUseCase', () => {
     })
 
     const question = inMemoryQuestionsRepository.items[0]
-    const questionAttachments = question.attachments
+    const questionAttachments = question.attachments.getItems()
 
     expect(result.isRight()).toBe(true)
     expect(question).toBe(result.value?.question)
