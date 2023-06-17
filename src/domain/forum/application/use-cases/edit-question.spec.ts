@@ -2,6 +2,7 @@ import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { EditQuestionUseCase } from '@/domain/forum/application/use-cases/edit-question'
 import { NotAllowedError } from '@/domain/forum/application/use-cases/errors/not-allowed.error'
 import { makeQuestion } from 'test/factories/make-question'
+import { makeQuestionAttachment } from 'test/factories/make-question-attachment'
 import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
 
@@ -44,6 +45,47 @@ describe('EditQuestionUseCase', () => {
       title: 'new title updated',
       content: 'new content updated',
     })
+  })
+
+  it('should edit a question with new attachments', async () => {
+    const newQuestion = makeQuestion(
+      {
+        authorId: new UniqueEntityId('author-id-1'),
+      },
+      new UniqueEntityId('question-id-1'),
+    )
+    await inMemoryQuestionsRepository.create(newQuestion)
+    inMemoryQuestionAttachmentsRepository.items.push(
+      makeQuestionAttachment({
+        questionId: newQuestion.id,
+        attachmentId: new UniqueEntityId('attachment-id-1'),
+      }),
+      makeQuestionAttachment({
+        questionId: newQuestion.id,
+        attachmentId: new UniqueEntityId('attachment-id-2'),
+      }),
+    )
+
+    const result = await sut.execute({
+      questionId: newQuestion.id.toString(),
+      authorId: newQuestion.authorId.toString(),
+      title: newQuestion.title,
+      content: newQuestion.content,
+      attachmentIds: ['attachment-id-1', 'attachment-id-3'],
+    })
+    const question = inMemoryQuestionsRepository.items[0]
+    const questionAttachments = question.attachments.getItems()
+
+    expect(result.isRight()).toBe(true)
+    if (result.isLeft()) throw new Error('should not be left')
+    expect(question).toBe(result.value.question)
+    expect(questionAttachments.length).toBe(2)
+    expect(questionAttachments[0].attachmentId.toString()).toBe(
+      'attachment-id-1',
+    )
+    expect(questionAttachments[1].attachmentId.toString()).toBe(
+      'attachment-id-3',
+    )
   })
 
   it('should not edit a question from another user', async () => {
