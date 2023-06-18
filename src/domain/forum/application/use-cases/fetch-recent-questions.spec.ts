@@ -1,4 +1,5 @@
 import { FetchRecentQuestionsUseCase } from '@/domain/forum/application/use-cases/fetch-recent-questions'
+import { makeInMemoryQuestionRepository } from 'test/factories/make-in-memory-question-repository'
 import { makeQuestion } from 'test/factories/make-question'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
 
@@ -7,7 +8,7 @@ let sut: FetchRecentQuestionsUseCase
 
 describe('Fetch Recent Questions', () => {
   beforeEach(() => {
-    inMemoryQuestionsRepository = new InMemoryQuestionsRepository()
+    inMemoryQuestionsRepository = makeInMemoryQuestionRepository()
     sut = new FetchRecentQuestionsUseCase(inMemoryQuestionsRepository)
   })
 

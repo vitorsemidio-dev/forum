@@ -1,4 +1,5 @@
 import { CommentOnQuestionUseCase } from '@/domain/forum/application/use-cases/comment-on-question'
+import { makeInMemoryQuestionRepository } from 'test/factories/make-in-memory-question-repository'
 import { makeQuestion } from 'test/factories/make-question'
 import { InMemoryQuestionCommentsRepository } from 'test/repositories/in-memory-question-comments-repository'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
@@ -9,7 +10,7 @@ let sut: CommentOnQuestionUseCase
 
 describe('Comment on Question', () => {
   beforeEach(() => {
-    inMemoryQuestionsRepository = new InMemoryQuestionsRepository()
+    inMemoryQuestionsRepository = makeInMemoryQuestionRepository()
     inMemoryQuestionCommentsRepository =
       new InMemoryQuestionCommentsRepository()
 
