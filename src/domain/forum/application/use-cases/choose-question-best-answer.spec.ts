@@ -8,18 +8,25 @@ import { makeQuestion } from 'test/factories/make-question'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
 
-let inMemoryQuestionsRepository: InMemoryQuestionsRepository
-let inMemoryAnswersRepository: InMemoryAnswersRepository
-let sut: ChooseQuestionBestAnswerUseCase
+const makeSut = () => {
+  const inMemoryQuestionsRepository = makeInMemoryQuestionRepository()
+  const inMemoryAnswersRepository = makeInMemoryAnswerRepository()
+  const sut = new ChooseQuestionBestAnswerUseCase(
+    inMemoryQuestionsRepository,
+    inMemoryAnswersRepository,
+  )
+  return { sut, inMemoryQuestionsRepository, inMemoryAnswersRepository }
+}
 
 describe('ChooseQuestionBestAnswer', () => {
+  let inMemoryQuestionsRepository: InMemoryQuestionsRepository
+  let inMemoryAnswersRepository: InMemoryAnswersRepository
+  let sut: ChooseQuestionBestAnswerUseCase
   beforeEach(() => {
-    inMemoryQuestionsRepository = makeInMemoryQuestionRepository()
-    inMemoryAnswersRepository = makeInMemoryAnswerRepository()
-    sut = new ChooseQuestionBestAnswerUseCase(
-      inMemoryQuestionsRepository,
-      inMemoryAnswersRepository,
-    )
+    const dependencies = makeSut()
+    inMemoryQuestionsRepository = dependencies.inMemoryQuestionsRepository
+    inMemoryAnswersRepository = dependencies.inMemoryAnswersRepository
+    sut = dependencies.sut
   })
 
   it('should choose the best answer from question', async () => {

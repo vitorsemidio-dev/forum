@@ -3,14 +3,24 @@ import { FetchQuestionCommentsUseCase } from '@/domain/forum/application/use-cas
 import { makeQuestionComment } from 'test/factories/make-question-comment'
 import { InMemoryQuestionCommentsRepository } from 'test/repositories/in-memory-question-comments-repository'
 
-let inMemoryQuestionCommentsRepository: InMemoryQuestionCommentsRepository
-let sut: FetchQuestionCommentsUseCase
+const makeSut = () => {
+  const inMemoryQuestionCommentsRepository =
+    new InMemoryQuestionCommentsRepository()
+  const sut = new FetchQuestionCommentsUseCase(
+    inMemoryQuestionCommentsRepository,
+  )
+  return { sut, inMemoryQuestionCommentsRepository }
+}
 
 describe('Fetch Question Comments', () => {
+  let inMemoryQuestionCommentsRepository: InMemoryQuestionCommentsRepository
+  let sut: FetchQuestionCommentsUseCase
+
   beforeEach(() => {
+    const dependencies = makeSut()
     inMemoryQuestionCommentsRepository =
-      new InMemoryQuestionCommentsRepository()
-    sut = new FetchQuestionCommentsUseCase(inMemoryQuestionCommentsRepository)
+      dependencies.inMemoryQuestionCommentsRepository
+    sut = dependencies.sut
   })
 
   it('should be able to fetch question comments', async () => {

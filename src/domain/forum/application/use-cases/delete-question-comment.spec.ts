@@ -4,15 +4,24 @@ import { NotAllowedError } from '@/domain/forum/application/use-cases/errors/not
 import { makeQuestionComment } from 'test/factories/make-question-comment'
 import { InMemoryQuestionCommentsRepository } from 'test/repositories/in-memory-question-comments-repository'
 
-let inMemoryQuestionCommentsRepository: InMemoryQuestionCommentsRepository
-let sut: DeleteQuestionCommentUseCase
+const makeSut = () => {
+  const inMemoryQuestionCommentsRepository =
+    new InMemoryQuestionCommentsRepository()
+  const sut = new DeleteQuestionCommentUseCase(
+    inMemoryQuestionCommentsRepository,
+  )
+  return { sut, inMemoryQuestionCommentsRepository }
+}
 
 describe('Delete Question Comment', () => {
-  beforeEach(() => {
-    inMemoryQuestionCommentsRepository =
-      new InMemoryQuestionCommentsRepository()
+  let inMemoryQuestionCommentsRepository: InMemoryQuestionCommentsRepository
+  let sut: DeleteQuestionCommentUseCase
 
-    sut = new DeleteQuestionCommentUseCase(inMemoryQuestionCommentsRepository)
+  beforeEach(() => {
+    const dependencies = makeSut()
+    inMemoryQuestionCommentsRepository =
+      dependencies.inMemoryQuestionCommentsRepository
+    sut = dependencies.sut
   })
 
   it('should be able to delete a question comment', async () => {

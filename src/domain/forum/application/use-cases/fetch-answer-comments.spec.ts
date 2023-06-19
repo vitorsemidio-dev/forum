@@ -3,13 +3,22 @@ import { FetchAnswerCommentsUseCase } from '@/domain/forum/application/use-cases
 import { makeAnswerComment } from 'test/factories/make-answer-comment'
 import { InMemoryAnswerCommentsRepository } from 'test/repositories/in-memory-answer-comments-repository'
 
-let inMemoryAnswerCommentsRepository: InMemoryAnswerCommentsRepository
-let sut: FetchAnswerCommentsUseCase
+const makeSut = () => {
+  const inMemoryAnswerCommentsRepository =
+    new InMemoryAnswerCommentsRepository()
+  const sut = new FetchAnswerCommentsUseCase(inMemoryAnswerCommentsRepository)
+  return { sut, inMemoryAnswerCommentsRepository }
+}
 
 describe('Fetch Answer Comments', () => {
+  let inMemoryAnswerCommentsRepository: InMemoryAnswerCommentsRepository
+  let sut: FetchAnswerCommentsUseCase
+
   beforeEach(() => {
-    inMemoryAnswerCommentsRepository = new InMemoryAnswerCommentsRepository()
-    sut = new FetchAnswerCommentsUseCase(inMemoryAnswerCommentsRepository)
+    const dependencies = makeSut()
+    inMemoryAnswerCommentsRepository =
+      dependencies.inMemoryAnswerCommentsRepository
+    sut = dependencies.sut
   })
 
   it('should be able to fetch answer comments', async () => {

@@ -2,16 +2,23 @@ import { AnswerQuestionUseCase } from '@/domain/forum/application/use-cases/answ
 import { makeInMemoryAnswerRepository } from 'test/factories/make-in-memory-answer-repository'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
 
-let inMemoryAnswersRepository: InMemoryAnswersRepository
-let sut: AnswerQuestionUseCase
+const makeSut = () => {
+  const inMemoryAnswersRepository = makeInMemoryAnswerRepository()
+  const sut = new AnswerQuestionUseCase(inMemoryAnswersRepository)
+  return { sut, inMemoryAnswersRepository }
+}
 
 describe('AnswerQuestionUseCase', () => {
+  let inMemoryAnswersRepository: InMemoryAnswersRepository
+  let sut: AnswerQuestionUseCase
+
   beforeEach(() => {
-    inMemoryAnswersRepository = makeInMemoryAnswerRepository()
-    sut = new AnswerQuestionUseCase(inMemoryAnswersRepository)
+    const dependencies = makeSut()
+    inMemoryAnswersRepository = dependencies.inMemoryAnswersRepository
+    sut = dependencies.sut
   })
 
-  it('create an answer without attachments', async ({ expect }) => {
+  it('create an answer without attachments', async () => {
     const result = await sut.execute({
       attachmentIds: [],
       instructorId: 'any_instructor_id',

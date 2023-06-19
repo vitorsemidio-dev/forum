@@ -4,13 +4,20 @@ import { makeAnswer } from 'test/factories/make-answer'
 import { makeInMemoryAnswerRepository } from 'test/factories/make-in-memory-answer-repository'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
 
-let inMemoryAnswersRepository: InMemoryAnswersRepository
-let sut: FetchQuestionAnswersUseCase
+const makeSut = () => {
+  const inMemoryAnswersRepository = makeInMemoryAnswerRepository()
+  const sut = new FetchQuestionAnswersUseCase(inMemoryAnswersRepository)
+  return { sut, inMemoryAnswersRepository }
+}
 
 describe('Fetch Question Answers', () => {
+  let inMemoryAnswersRepository: InMemoryAnswersRepository
+  let sut: FetchQuestionAnswersUseCase
+
   beforeEach(() => {
-    inMemoryAnswersRepository = makeInMemoryAnswerRepository()
-    sut = new FetchQuestionAnswersUseCase(inMemoryAnswersRepository)
+    const dependencies = makeSut()
+    inMemoryAnswersRepository = dependencies.inMemoryAnswersRepository
+    sut = dependencies.sut
   })
 
   it('should be able to fetch question answers', async () => {

@@ -4,19 +4,27 @@ import { makeInMemoryAnswerRepository } from 'test/factories/make-in-memory-answ
 import { InMemoryAnswerCommentsRepository } from 'test/repositories/in-memory-answer-comments-repository'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
 
-let inMemoryAnswersRepository: InMemoryAnswersRepository
-let inMemoryAnswerCommentsRepository: InMemoryAnswerCommentsRepository
-let sut: CommentOnAnswerUseCase
+const makeSut = () => {
+  const inMemoryAnswersRepository = makeInMemoryAnswerRepository()
+  const inMemoryAnswerCommentsRepository =
+    new InMemoryAnswerCommentsRepository()
+  const sut = new CommentOnAnswerUseCase(
+    inMemoryAnswersRepository,
+    inMemoryAnswerCommentsRepository,
+  )
+  return { sut, inMemoryAnswersRepository, inMemoryAnswerCommentsRepository }
+}
 
 describe('Comment on Answer', () => {
+  let inMemoryAnswersRepository: InMemoryAnswersRepository
+  let inMemoryAnswerCommentsRepository: InMemoryAnswerCommentsRepository
+  let sut: CommentOnAnswerUseCase
   beforeEach(() => {
-    inMemoryAnswersRepository = makeInMemoryAnswerRepository()
-    inMemoryAnswerCommentsRepository = new InMemoryAnswerCommentsRepository()
-
-    sut = new CommentOnAnswerUseCase(
-      inMemoryAnswersRepository,
-      inMemoryAnswerCommentsRepository,
-    )
+    const dependencies = makeSut()
+    inMemoryAnswersRepository = dependencies.inMemoryAnswersRepository
+    inMemoryAnswerCommentsRepository =
+      dependencies.inMemoryAnswerCommentsRepository
+    sut = dependencies.sut
   })
 
   it('should be able to comment on answer', async () => {

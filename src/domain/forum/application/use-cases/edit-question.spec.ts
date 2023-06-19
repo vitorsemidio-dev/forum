@@ -6,21 +6,34 @@ import { makeQuestionAttachment } from 'test/factories/make-question-attachment'
 import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
 
-let inMemoryQuestionsRepository: InMemoryQuestionsRepository
-let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
-let sut: EditQuestionUseCase
+const makeSut = () => {
+  const inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
+    new InMemoryQuestionAttachmentsRepository(),
+  )
+  const inMemoryQuestionAttachmentsRepository =
+    new InMemoryQuestionAttachmentsRepository()
+  const sut = new EditQuestionUseCase(
+    inMemoryQuestionsRepository,
+    inMemoryQuestionAttachmentsRepository,
+  )
+  return {
+    sut,
+    inMemoryQuestionAttachmentsRepository,
+    inMemoryQuestionsRepository,
+  }
+}
 
 describe('EditQuestionUseCase', () => {
+  let inMemoryQuestionsRepository: InMemoryQuestionsRepository
+  let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
+  let sut: EditQuestionUseCase
+
   beforeEach(() => {
+    const dependencies = makeSut()
+    inMemoryQuestionsRepository = dependencies.inMemoryQuestionsRepository
     inMemoryQuestionAttachmentsRepository =
-      new InMemoryQuestionAttachmentsRepository()
-    inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
-      inMemoryQuestionAttachmentsRepository,
-    )
-    sut = new EditQuestionUseCase(
-      inMemoryQuestionsRepository,
-      inMemoryQuestionAttachmentsRepository,
-    )
+      dependencies.inMemoryQuestionAttachmentsRepository
+    sut = dependencies.sut
   })
 
   it('should edit a question', async () => {

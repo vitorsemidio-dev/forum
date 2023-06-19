@@ -1,19 +1,24 @@
 import { CreateQuestionUseCase } from '@/domain/forum/application/use-cases/create-question'
-import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository'
+import { makeInMemoryQuestionRepository } from 'test/factories/make-in-memory-question-repository'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
 
-let inMemoryQuestionsRepository: InMemoryQuestionsRepository
-let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
-let sut: CreateQuestionUseCase
+const makeSut = () => {
+  const inMemoryQuestionsRepository = makeInMemoryQuestionRepository()
+  const sut = new CreateQuestionUseCase(inMemoryQuestionsRepository)
+  return {
+    sut,
+    inMemoryQuestionsRepository,
+  }
+}
 
 describe('CreateQuestionUseCase', () => {
+  let inMemoryQuestionsRepository: InMemoryQuestionsRepository
+  let sut: CreateQuestionUseCase
+
   beforeEach(() => {
-    inMemoryQuestionAttachmentsRepository =
-      new InMemoryQuestionAttachmentsRepository()
-    inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
-      inMemoryQuestionAttachmentsRepository,
-    )
-    sut = new CreateQuestionUseCase(inMemoryQuestionsRepository)
+    const dependencies = makeSut()
+    inMemoryQuestionsRepository = dependencies.inMemoryQuestionsRepository
+    sut = dependencies.sut
   })
 
   it('create a question', async () => {

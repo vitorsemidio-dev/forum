@@ -6,18 +6,27 @@ import { makeAnswerAttachment } from 'test/factories/make-answer-attachment'
 import { InMemoryAnswerAttachmentsRepository } from 'test/repositories/in-memory-answer-attachments-repository'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
 
-let inMemoryAnswersRepository: InMemoryAnswersRepository
-let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository
-let sut: DeleteAnswerUseCase
+const makeSut = () => {
+  const inMemoryAnswerAttachmentsRepository =
+    new InMemoryAnswerAttachmentsRepository()
+  const inMemoryAnswersRepository = new InMemoryAnswersRepository(
+    inMemoryAnswerAttachmentsRepository,
+  )
+  const sut = new DeleteAnswerUseCase(inMemoryAnswersRepository)
+  return { sut, inMemoryAnswerAttachmentsRepository, inMemoryAnswersRepository }
+}
 
 describe('DeleteAnswerUseCase', () => {
+  let inMemoryAnswersRepository: InMemoryAnswersRepository
+  let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository
+  let sut: DeleteAnswerUseCase
+
   beforeEach(() => {
+    const dependencies = makeSut()
+    inMemoryAnswersRepository = dependencies.inMemoryAnswersRepository
     inMemoryAnswerAttachmentsRepository =
-      new InMemoryAnswerAttachmentsRepository()
-    inMemoryAnswersRepository = new InMemoryAnswersRepository(
-      inMemoryAnswerAttachmentsRepository,
-    )
-    sut = new DeleteAnswerUseCase(inMemoryAnswersRepository)
+      dependencies.inMemoryAnswerAttachmentsRepository
+    sut = dependencies.sut
   })
 
   it('should delete a answer', async () => {

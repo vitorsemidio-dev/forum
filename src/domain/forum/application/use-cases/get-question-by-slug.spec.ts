@@ -5,13 +5,20 @@ import { makeInMemoryQuestionRepository } from 'test/factories/make-in-memory-qu
 import { makeQuestion } from 'test/factories/make-question'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
 
-let inMemoryQuestionsRepository: InMemoryQuestionsRepository
-let sut: GetQuestionBySlugUseCase
+const makeSut = () => {
+  const inMemoryQuestionsRepository = makeInMemoryQuestionRepository()
+  const sut = new GetQuestionBySlugUseCase(inMemoryQuestionsRepository)
+  return { sut, inMemoryQuestionsRepository }
+}
 
 describe('GetQuestionBySlug', () => {
+  let inMemoryQuestionsRepository: InMemoryQuestionsRepository
+  let sut: GetQuestionBySlugUseCase
+
   beforeEach(() => {
-    inMemoryQuestionsRepository = makeInMemoryQuestionRepository()
-    sut = new GetQuestionBySlugUseCase(inMemoryQuestionsRepository)
+    const dependencies = makeSut()
+    inMemoryQuestionsRepository = dependencies.inMemoryQuestionsRepository
+    sut = dependencies.sut
   })
 
   it('should get a question by slug', async () => {
