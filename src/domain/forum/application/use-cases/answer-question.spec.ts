@@ -12,6 +12,7 @@ describe('AnswerQuestionUseCase', () => {
 
   it('create an answer', async ({ expect }) => {
     const result = await sut.execute({
+      attachmentIds: [],
       instructorId: 'any_instructor_id',
       questionId: 'any_question_id',
       content: 'any_content',
