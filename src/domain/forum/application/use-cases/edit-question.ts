@@ -1,5 +1,4 @@
 import { Either, left, right } from '@/core/either'
-import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { QuestionAttachmentsRepository } from '@/domain/forum/application/repositories/question-attachment-repository'
 import { QuestionsRepository } from '@/domain/forum/application/repositories/questions-repository'
 import { NotAllowedError } from '@/domain/forum/application/use-cases/errors/not-allowed.error'
@@ -53,11 +52,9 @@ export class EditQuestionUseCase {
       currentQuestionAttachments,
     )
 
-    const attachments = attachmentIds.map((attachmentId) => {
-      return QuestionAttachment.create({
-        attachmentId: new UniqueEntityId(attachmentId),
-        questionId: question.id,
-      })
+    const attachments = QuestionAttachment.createFromIds({
+      attachmentIds,
+      questionId: question.id,
     })
 
     questionAttachmentList.update(attachments)

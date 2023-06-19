@@ -6,6 +6,11 @@ export interface QuestionAttachmentProps {
   questionId: UniqueEntityId
 }
 
+interface CreateFromIdsParams {
+  attachmentIds: string[]
+  questionId: UniqueEntityId
+}
+
 export class QuestionAttachment extends Entity<QuestionAttachmentProps> {
   get attachmentId() {
     return this.props.attachmentId
@@ -18,5 +23,15 @@ export class QuestionAttachment extends Entity<QuestionAttachmentProps> {
   static create(props: QuestionAttachmentProps, id?: UniqueEntityId) {
     const questionAttachment = new QuestionAttachment(props, id)
     return questionAttachment
+  }
+
+  static createFromIds({ attachmentIds, questionId }: CreateFromIdsParams) {
+    const attachments = attachmentIds.map((attachmentId) => {
+      return QuestionAttachment.create({
+        attachmentId: new UniqueEntityId(attachmentId),
+        questionId,
+      })
+    })
+    return attachments
   }
 }
