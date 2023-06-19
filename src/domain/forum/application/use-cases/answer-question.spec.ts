@@ -1,4 +1,5 @@
 import { AnswerQuestionUseCase } from '@/domain/forum/application/use-cases/answer-question'
+import { makeInMemoryAnswerRepository } from 'test/factories/make-in-memory-answer-repository'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
 
 let inMemoryAnswersRepository: InMemoryAnswersRepository
@@ -6,7 +7,7 @@ let sut: AnswerQuestionUseCase
 
 describe('AnswerQuestionUseCase', () => {
   beforeEach(() => {
-    inMemoryAnswersRepository = new InMemoryAnswersRepository()
+    inMemoryAnswersRepository = makeInMemoryAnswerRepository()
     sut = new AnswerQuestionUseCase(inMemoryAnswersRepository)
   })
 

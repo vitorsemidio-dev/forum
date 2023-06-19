@@ -2,6 +2,7 @@ import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { ChooseQuestionBestAnswerUseCase } from '@/domain/forum/application/use-cases/choose-question-best-answer'
 import { NotAllowedError } from '@/domain/forum/application/use-cases/errors/not-allowed.error'
 import { makeAnswer } from 'test/factories/make-answer'
+import { makeInMemoryAnswerRepository } from 'test/factories/make-in-memory-answer-repository'
 import { makeInMemoryQuestionRepository } from 'test/factories/make-in-memory-question-repository'
 import { makeQuestion } from 'test/factories/make-question'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
@@ -14,7 +15,7 @@ let sut: ChooseQuestionBestAnswerUseCase
 describe('ChooseQuestionBestAnswer', () => {
   beforeEach(() => {
     inMemoryQuestionsRepository = makeInMemoryQuestionRepository()
-    inMemoryAnswersRepository = new InMemoryAnswersRepository()
+    inMemoryAnswersRepository = makeInMemoryAnswerRepository()
     sut = new ChooseQuestionBestAnswerUseCase(
       inMemoryQuestionsRepository,
       inMemoryAnswersRepository,

@@ -3,6 +3,7 @@ import { EditAnswerUseCase } from '@/domain/forum/application/use-cases/edit-ans
 import { NotAllowedError } from '@/domain/forum/application/use-cases/errors/not-allowed.error'
 import { makeAnswer } from 'test/factories/make-answer'
 import { makeAnswerAttachment } from 'test/factories/make-answer-attachment'
+import { makeInMemoryAnswerRepository } from 'test/factories/make-in-memory-answer-repository'
 import { InMemoryAnswerAttachmentsRepository } from 'test/repositories/in-memory-answer-attachments-repository'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
 
@@ -14,7 +15,7 @@ describe('EditAnswerUseCase', () => {
   beforeEach(() => {
     inMemoryAnswerAttachmentsRepository =
       new InMemoryAnswerAttachmentsRepository()
-    inMemoryAnswersRepository = new InMemoryAnswersRepository()
+    inMemoryAnswersRepository = makeInMemoryAnswerRepository()
     sut = new EditAnswerUseCase(
       inMemoryAnswersRepository,
       inMemoryAnswerAttachmentsRepository,
