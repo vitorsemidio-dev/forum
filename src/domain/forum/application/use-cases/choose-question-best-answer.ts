@@ -1,9 +1,9 @@
 import { Either, left, right } from '@/core/either'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { NotAllowedError } from '@/core/errors/not-allowed.error'
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found.error'
 import { AnswersRepository } from '@/domain/forum/application/repositories/answers-repository'
 import { QuestionsRepository } from '@/domain/forum/application/repositories/questions-repository'
-import { NotAllowedError } from '@/domain/forum/application/use-cases/errors/not-allowed.error'
-import { ResourceNotFoundError } from '@/domain/forum/application/use-cases/errors/resource-not-found.error'
 import { Question } from '@/domain/forum/enterprise/entities/question'
 
 interface ChooseQuestionBestAnswerUseCaseInput {

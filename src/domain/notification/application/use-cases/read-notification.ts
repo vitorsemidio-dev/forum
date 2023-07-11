@@ -1,6 +1,6 @@
 import { Either, left, right } from '@/core/either'
-import { NotAllowedError } from '@/domain/forum/application/use-cases/errors/not-allowed.error'
-import { ResourceNotFoundError } from '@/domain/forum/application/use-cases/errors/resource-not-found.error'
+import { ResourceNotFoundError } from '@/core/errors//resource-not-found.error'
+import { NotAllowedError } from '@/core/errors/not-allowed.error'
 import { NotificationsRepository } from '@/domain/notification/application/repositories/notifications-repository'
 import { Notification } from '@/domain/notification/enterprise/entities/notification'
 

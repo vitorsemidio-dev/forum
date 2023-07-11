@@ -1,6 +1,6 @@
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
-import { NotAllowedError } from '@/domain/forum/application/use-cases/errors/not-allowed.error'
-import { ResourceNotFoundError } from '@/domain/forum/application/use-cases/errors/resource-not-found.error'
+import { NotAllowedError } from '@/core/errors/not-allowed.error'
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found.error'
 import { ReadNotificationUseCase } from '@/domain/notification/application/use-cases/read-notification'
 import { makeNotification } from 'test/factories/make-notification'
 import { InMemoryNotificationsRepository } from 'test/repositories/in-memory-notifications-repository'
