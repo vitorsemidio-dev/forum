@@ -33,7 +33,9 @@
     "bcrypt": "5.1.1",
     "dayjs": "1.11.7",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "zod": "3.22.2",
+    "zod-validation-error": "1.5.0"
   },
   "devDependencies": {
     "@faker-js/faker": "7.6.0",
