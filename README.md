@@ -1,73 +1,54 @@
+# Forum 💬
+
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+  🚧
+  <img src="https://img.shields.io/badge/Em%20Desenvolvimento-yellow.svg">
+  🚧
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
+<p align="center">
+  <img src="https://img.shields.io/static/v1?logo=Node.js&logoColor=339933&label=Node.js&message=Node.js&color=339933" alt="Logo Node.js" />
+  <img src="https://img.shields.io/static/v1?logo=TypeScript&logoColor=3178C6&label=TypeScript&message=TypeScript&color=3178C6" alt="Logo TypeScript" />
+  <img src="https://img.shields.io/static/v1?logo=Vitest&logoColor=6E9F18&label=Vitest&message=Vitest&color=6E9F18" alt="Logo Vitest" />
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+A aplicação **Forum** é um fórum online desenvolvido utilizando Node.js, que permite que alunos enviem dúvidas para serem respondidas por outros alunos ou professores.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Através do **Forum**, os professores têm acesso às dúvidas dos alunos, podendo identificar quais delas já foram respondidas e quais ainda estão em aberto. Os alunos podem interagir entre si e com os professores, contribuindo para uma comunidade de aprendizado colaborativa.
 
-## Installation
+Recursos e funcionalidades principais da aplicação:
 
-```bash
-$ npm install
-```
+- **Envio de Dúvidas**: Os alunos podem enviar suas dúvidas para o fórum, descrevendo detalhadamente o problema ou a pergunta.
+- **Respostas de Alunos e Professores**: Tanto alunos quanto professores podem responder às dúvidas dos alunos, oferecendo soluções, explicações ou orientações.
+- **Melhor Resposta**: O autor da dúvida tem a opção de escolher qual resposta foi a mais útil ou solucionou seu problema, destacando-a como a "melhor resposta".
+- **Comentários em Perguntas e Respostas**: Os internautas podem enviar comentários tanto para as perguntas quanto para as respostas existentes, permitindo discussões adicionais e esclarecimentos.
 
-## Running the app
+Através da utilização do Node.js, a aplicação é capaz de lidar com um alto volume de requisições de forma eficiente e escalável, garantindo uma experiência rápida e responsiva aos usuários.
 
-```bash
-# development
-$ npm run start
+O **Forum** é uma ferramenta valiosa para promover a interação e a troca de conhecimento entre alunos e professores, proporcionando um ambiente colaborativo de aprendizado.
 
-# watch mode
-$ npm run start:dev
+## 🧭 Como rodar o projeto
 
-# production mode
-$ npm run start:prod
-```
-
-## Test
+Instale as dependências
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm install
 ```
 
-## Support
+---
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## 🧪 Testes
 
-## Stay in touch
+Utilize o comando a seguir para executar os testes unitários
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```bash
+npm run test
+```
 
-## License
+![](.github/npm-run-test.png)
 
-Nest is [MIT licensed](LICENSE).
+Utilize o comando a seguir para executar os testes unitário em modo watch
+
+```bash
+npm run test:watch
+````
