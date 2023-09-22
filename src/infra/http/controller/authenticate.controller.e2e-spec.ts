@@ -1,5 +1,5 @@
-import { AppModule } from '@/app.module'
 import { HashGenerator } from '@/domain/forum/application/cryptography/hash-generator'
+import { AppModule } from '@/infra/app.module'
 import { CryptographyModule } from '@/infra/cryptography/cryptography.module'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { INestApplication } from '@nestjs/common'

@@ -1,5 +1,6 @@
 import { HashComparer } from '@/domain/forum/application/cryptography/hash-comparer'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import {
   Body,
   Controller,
@@ -9,7 +10,6 @@ import {
 } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { z } from 'zod'
-import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 
 const authenticationBodySchema = z.object({
   email: z.string().email(),

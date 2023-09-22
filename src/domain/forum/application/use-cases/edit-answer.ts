@@ -4,8 +4,8 @@ import { NotAllowedError } from '@/core/errors/not-allowed.error'
 import { AnswerAttachmentsRepository } from '@/domain/forum/application/repositories/answer-attachment-repository'
 import { AnswersRepository } from '@/domain/forum/application/repositories/answers-repository'
 import { Answer } from '@/domain/forum/enterprise/entities/answer'
+import { AnswerAttachment } from '@/domain/forum/enterprise/entities/answer-attachment'
 import { AnswerAttachmentList } from '@/domain/forum/enterprise/entities/answer-attachment-list'
-import { AnswerAttachment } from '../../enterprise/entities/answer-attachment'
 
 interface EditAnswerUseCaseInput {
   attachmentIds: string[]
