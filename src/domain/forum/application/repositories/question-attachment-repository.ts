@@ -1,6 +1,8 @@
 import { QuestionAttachment } from '@/domain/forum/enterprise/entities/question-attachment'
 
-export interface QuestionAttachmentsRepository {
-  deleteManyByQuestionId(questionId: string): Promise<void>
-  findManyByQuestionId(questionId: string): Promise<QuestionAttachment[]>
+export abstract class QuestionAttachmentsRepository {
+  abstract deleteManyByQuestionId(questionId: string): Promise<void>
+  abstract findManyByQuestionId(
+    questionId: string,
+  ): Promise<QuestionAttachment[]>
 }

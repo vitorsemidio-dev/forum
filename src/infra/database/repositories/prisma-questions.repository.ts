@@ -42,7 +42,14 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
   findManyRecent(params: PaginationParams): Promise<Question[]> {
     throw new Error('Method not implemented.')
   }
-  save(question: Question): Promise<void> {
-    throw new Error('Method not implemented.')
+  async save(question: Question): Promise<void> {
+    const data = PrismaQuestionMapper.toPrisma(question)
+
+    await this.prisma.question.update({
+      where: {
+        id: question.id.toString(),
+      },
+      data,
+    })
   }
 }
