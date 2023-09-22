@@ -39,19 +39,19 @@ describe('FetchRecentQuestionsController (e2e)', () => {
     expect(response.body).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          id: question1.id,
+          id: question1.id.toValue(),
           title: question1.title,
-          slug: question1.slug,
+          slug: question1.slug.value,
         }),
         expect.objectContaining({
-          id: question2.id,
+          id: question2.id.toString(),
           title: question2.title,
-          slug: question2.slug,
+          slug: question2.slug.value,
         }),
         expect.objectContaining({
-          id: question3.id,
+          id: question3.id.toString(),
           title: question3.title,
-          slug: question3.slug,
+          slug: question3.slug.value,
         }),
       ]),
     )
