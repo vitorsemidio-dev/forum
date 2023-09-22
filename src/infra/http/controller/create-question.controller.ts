@@ -1,8 +1,7 @@
-import { Slug } from '@/domain/forum/enterprise/entities/value-objects/slug'
+import { CreateQuestionUseCase } from '@/domain/forum/application/use-cases/create-question'
 import { CurrentUser } from '@/infra/auth/current-user.decorator'
 import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
 import { TokenPayload } from '@/infra/auth/jwt.strategy'
-import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { Body, Controller, Post, UseGuards } from '@nestjs/common'
 import { z } from 'zod'
@@ -17,7 +16,7 @@ type CreateQuestionBody = z.infer<typeof createQuestionBodySchema>
 @Controller('questions')
 @UseGuards(JwtAuthGuard)
 export class CreateQuestionController {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly createQuestionUseCase: CreateQuestionUseCase) {}
 
   @Post()
   async handle(
@@ -27,13 +26,11 @@ export class CreateQuestionController {
   ) {
     const { title, content } = body
 
-    await this.prismaService.question.create({
-      data: {
-        authorId: user.sub,
-        content,
-        slug: Slug.createFromText(title).value,
-        title,
-      },
+    await this.createQuestionUseCase.execute({
+      attachmentIds: [],
+      authorId: user.sub,
+      content,
+      title,
     })
   }
 }

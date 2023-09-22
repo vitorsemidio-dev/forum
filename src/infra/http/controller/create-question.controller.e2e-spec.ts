@@ -2,6 +2,7 @@ import { HashGenerator } from '@/domain/forum/application/cryptography/hash-gene
 import { Slug } from '@/domain/forum/enterprise/entities/value-objects/slug'
 import { AppModule } from '@/infra/app.module'
 import { CryptographyModule } from '@/infra/cryptography/cryptography.module'
+import { DatabaseModule } from '@/infra/database/database.module'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
@@ -19,9 +20,9 @@ describe('CreateQuestionController (e2e)', () => {
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [AppModule, CryptographyModule],
+      imports: [AppModule, CryptographyModule, DatabaseModule],
       controllers: [],
-      providers: [JwtService, UserFactory, PrismaService],
+      providers: [JwtService, UserFactory],
     }).compile()
 
     app = moduleRef.createNestApplication()
@@ -32,6 +33,7 @@ describe('CreateQuestionController (e2e)', () => {
 
     await app.init()
   })
+
   test('[POST] /questions', async () => {
     const user = await userFactory.makeUser()
     const token = jwtService.sign({ sub: user.id })
