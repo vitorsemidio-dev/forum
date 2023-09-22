@@ -13,7 +13,7 @@ export interface QuestionProps {
   content: string
   createdAt: Date
   slug: Slug
-  updatedAt?: Date
+  updatedAt?: Date | null
   title: string
 }
 

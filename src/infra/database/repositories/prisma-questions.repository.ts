@@ -16,11 +16,25 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
       data,
     })
   }
-  delete(id: string): Promise<void> {
-    throw new Error('Method not implemented.')
+  async delete(id: string): Promise<void> {
+    await this.prisma.question.delete({
+      where: {
+        id,
+      },
+    })
   }
-  findById(id: string): Promise<Question | null> {
-    throw new Error('Method not implemented.')
+  async findById(id: string): Promise<Question | null> {
+    const question = await this.prisma.question.findUnique({
+      where: {
+        id,
+      },
+    })
+
+    if (!question) {
+      return null
+    }
+
+    return PrismaQuestionMapper.toDomain(question)
   }
   findBySlug(slug: string): Promise<Question | null> {
     throw new Error('Method not implemented.')
