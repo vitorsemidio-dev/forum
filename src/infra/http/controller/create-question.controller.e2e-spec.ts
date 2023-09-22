@@ -9,34 +9,34 @@ import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { makeQuestion } from 'test/factories/make-question'
-import { UserFactory } from 'test/factories/make-user'
+import { StudentFactory } from 'test/factories/make-user'
 
 describe('CreateQuestionController (e2e)', () => {
   let app: INestApplication
   let jwtService: JwtService
   let hashGenerator: HashGenerator
-  let userFactory: UserFactory
+  let studentFactory: StudentFactory
   let prisma: PrismaService
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, CryptographyModule, DatabaseModule],
       controllers: [],
-      providers: [JwtService, UserFactory],
+      providers: [JwtService, StudentFactory],
     }).compile()
 
     app = moduleRef.createNestApplication()
     jwtService = moduleRef.get(JwtService)
     hashGenerator = moduleRef.get(HashGenerator)
-    userFactory = moduleRef.get(UserFactory)
+    studentFactory = moduleRef.get(StudentFactory)
     prisma = moduleRef.get(PrismaService)
 
     await app.init()
   })
 
   test('[POST] /questions', async () => {
-    const user = await userFactory.makeUser()
-    const token = jwtService.sign({ sub: user.id })
+    const student = await studentFactory.makeStudent()
+    const token = jwtService.sign({ sub: student.id.toString() })
     const question = makeQuestion()
 
     const response = await request(app.getHttpServer())
@@ -56,7 +56,7 @@ describe('CreateQuestionController (e2e)', () => {
     })
 
     expect(questionOnDatabase).toBeTruthy()
-    expect(questionOnDatabase?.authorId).toBe(user.id)
+    expect(questionOnDatabase?.authorId).toBe(student.id.toString())
     expect(questionOnDatabase?.slug).toBe(
       Slug.createFromText(question.title).value,
     )

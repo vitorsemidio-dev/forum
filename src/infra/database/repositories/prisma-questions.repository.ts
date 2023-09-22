@@ -1,8 +1,8 @@
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { QuestionsRepository } from '@/domain/forum/application/repositories/questions-repository'
 import { Question } from '@/domain/forum/enterprise/entities/question'
+import { PrismaQuestionMapper } from '@/infra/http/presenter/prisma-question.mapper'
 import { Injectable } from '@nestjs/common'
-import { PrismaQuestionMapper } from '../presenter/prisma-question.mapper'
 import { PrismaService } from '../prisma/prisma.service'
 
 @Injectable()

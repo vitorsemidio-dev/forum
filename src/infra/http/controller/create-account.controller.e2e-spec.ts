@@ -3,31 +3,33 @@ import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
-import { UserFactory, makeUser } from 'test/factories/make-user'
+import { StudentFactory, makeStudent } from 'test/factories/make-user'
 
 describe('Create Account (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
-  let userFactory: UserFactory
+  let studentFactory: StudentFactory
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule],
-      providers: [PrismaService, UserFactory],
+      providers: [PrismaService, StudentFactory],
     }).compile()
 
     app = moduleRef.createNestApplication()
     prisma = moduleRef.get(PrismaService)
-    userFactory = moduleRef.get(UserFactory)
+    studentFactory = moduleRef.get(StudentFactory)
 
     await app.init()
   })
 
   test('[POST] /accounts', async () => {
-    const user = makeUser()
-    const response = await request(app.getHttpServer())
-      .post('/accounts')
-      .send(user)
+    const user = makeStudent()
+    const response = await request(app.getHttpServer()).post('/accounts').send({
+      name: user.name,
+      email: user.email,
+      password: user.password,
+    })
 
     expect(response.statusCode).toBe(201)
 
