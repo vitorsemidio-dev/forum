@@ -5,8 +5,8 @@ import {
 } from '@/domain/forum/enterprise/entities/question'
 import { QuestionAttachmentList } from '@/domain/forum/enterprise/entities/question-attachment-list'
 import { Slug } from '@/domain/forum/enterprise/entities/value-objects/slug'
+import { PrismaQuestionMapper } from '@/infra/database/prisma/mappers/prisma-question.mapper'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
-import { PrismaQuestionMapper } from '@/infra/http/presenter/prisma-question.mapper'
 import { Injectable } from '@nestjs/common'
 import { fakerPtBr } from 'test/utils/faker'
 

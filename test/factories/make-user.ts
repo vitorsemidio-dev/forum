@@ -3,8 +3,8 @@ import {
   Student,
   StudentProps,
 } from '@/domain/forum/enterprise/entities/student'
+import { PrismaStudentMapper } from '@/infra/database/prisma/mappers/prisma-user.mapper'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
-import { PrismaStudentMapper } from '@/infra/http/presenter/prisma-user.mapper'
 import { Injectable } from '@nestjs/common'
 import { fakerPtBr } from 'test/utils/faker'
 
