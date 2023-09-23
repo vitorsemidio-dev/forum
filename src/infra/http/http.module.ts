@@ -1,3 +1,4 @@
+import { AnswerQuestionUseCase } from '@/domain/forum/application/use-cases/answer-question'
 import { CreateQuestionUseCase } from '@/domain/forum/application/use-cases/create-question'
 import { DeleteQuestionUseCase } from '@/domain/forum/application/use-cases/delete-question'
 import { EditQuestionUseCase } from '@/domain/forum/application/use-cases/edit-question'
@@ -6,6 +7,7 @@ import { AuthModule } from '@/infra/auth/auth.module'
 import { JwtStrategy } from '@/infra/auth/jwt.strategy'
 import { CryptographyModule } from '@/infra/cryptography/cryptography.module'
 import { DatabaseModule } from '@/infra/database/database.module'
+import { AnswerQuestionController } from '@/infra/http/controller/answer-question.controller'
 import { AuthenticateController } from '@/infra/http/controller/authenticate.controller'
 import { CreateAccountController } from '@/infra/http/controller/create-account.controller'
 import { CreateQuestionController } from '@/infra/http/controller/create-question.controller'
@@ -23,6 +25,7 @@ import { Module } from '@nestjs/common'
     DeleteQuestionController,
     EditQuestionController,
     FetchRecentQuestionsController,
+    AnswerQuestionController,
   ],
   providers: [
     JwtStrategy,
@@ -30,6 +33,7 @@ import { Module } from '@nestjs/common'
     DeleteQuestionUseCase,
     EditQuestionUseCase,
     FetchRecentQuestionsUseCase,
+    AnswerQuestionUseCase,
   ],
 })
 export class HttpModule {}
