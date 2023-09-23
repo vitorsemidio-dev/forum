@@ -14,6 +14,7 @@ model User {
   password String
 
   questions Question[]
+  answers   Answer[]
 
   @@map("users")
 }
@@ -25,21 +26,45 @@ model Question {
   content   String
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
-  authorId  String    @map("author_id")
+
+  authorId     String  @map("author_id")
+  bestAnswerId String? @unique @map("best_answer_id")
 
   author      User         @relation(fields: [authorId], references: [id])
+  bestAnswer  Answer?      @relation("bestAnswer", fields: [bestAnswerId], references: [id])
+  answers     Answer[]
   attachments Attachment[]
 
   @@map("questions")
 }
 
 model Attachment {
-  id         String  @id @default(uuid())
-  title      String
-  url        String
+  id    String @id @default(uuid())
+  title String
+  url   String
+
   questionId String? @map("question_id")
+  answerId   String?
 
   question Question? @relation(fields: [questionId], references: [id])
+  answer   Answer?   @relation(fields: [answerId], references: [id])
 
   @@map("attachments")
+}
+
+model Answer {
+  id        String    @id @default(uuid())
+  content   String
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  authorId   String @map("author_id")
+  questionId String @map("question_id")
+
+  author       User         @relation(fields: [authorId], references: [id])
+  bestAnswerOn Question?    @relation("bestAnswer")
+  question     Question     @relation(fields: [questionId], references: [id])
+  attachments  Attachment[]
+
+  @@map("answers")
 }
