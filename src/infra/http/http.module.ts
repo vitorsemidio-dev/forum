@@ -6,6 +6,7 @@ import { EditAnswerUseCase } from '@/domain/forum/application/use-cases/edit-ans
 import { EditQuestionUseCase } from '@/domain/forum/application/use-cases/edit-question'
 import { FetchQuestionAnswersUseCase } from '@/domain/forum/application/use-cases/fetch-question-answers'
 import { FetchRecentQuestionsUseCase } from '@/domain/forum/application/use-cases/fetch-recent-questions'
+import { GetQuestionBySlugUseCase } from '@/domain/forum/application/use-cases/get-question-by-slug'
 import { AuthModule } from '@/infra/auth/auth.module'
 import { JwtStrategy } from '@/infra/auth/jwt.strategy'
 import { CryptographyModule } from '@/infra/cryptography/cryptography.module'
@@ -20,6 +21,7 @@ import { EditAnswerController } from '@/infra/http/controller/edit-answer.contro
 import { EditQuestionController } from '@/infra/http/controller/edit-question.controller'
 import { FetchQuestionAnswersController } from '@/infra/http/controller/fetch-question-answers.controller'
 import { FetchRecentQuestionsController } from '@/infra/http/controller/fetch-recent-questions.controller'
+import { GetQuestionBySlugController } from '@/infra/http/controller/get-question-by-slug.controller'
 import { Module } from '@nestjs/common'
 
 @Module({
@@ -35,6 +37,7 @@ import { Module } from '@nestjs/common'
     DeleteAnswerController,
     EditAnswerController,
     FetchQuestionAnswersController,
+    GetQuestionBySlugController,
   ],
   providers: [
     JwtStrategy,
@@ -46,6 +49,7 @@ import { Module } from '@nestjs/common'
     DeleteAnswerUseCase,
     EditAnswerUseCase,
     FetchQuestionAnswersUseCase,
+    GetQuestionBySlugUseCase,
   ],
 })
 export class HttpModule {}
