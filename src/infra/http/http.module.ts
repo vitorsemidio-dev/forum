@@ -4,6 +4,7 @@ import { DeleteAnswerUseCase } from '@/domain/forum/application/use-cases/delete
 import { DeleteQuestionUseCase } from '@/domain/forum/application/use-cases/delete-question'
 import { EditAnswerUseCase } from '@/domain/forum/application/use-cases/edit-answer'
 import { EditQuestionUseCase } from '@/domain/forum/application/use-cases/edit-question'
+import { FetchQuestionAnswersUseCase } from '@/domain/forum/application/use-cases/fetch-question-answers'
 import { FetchRecentQuestionsUseCase } from '@/domain/forum/application/use-cases/fetch-recent-questions'
 import { AuthModule } from '@/infra/auth/auth.module'
 import { JwtStrategy } from '@/infra/auth/jwt.strategy'
@@ -17,6 +18,7 @@ import { DeleteAnswerController } from '@/infra/http/controller/delete-answer.co
 import { DeleteQuestionController } from '@/infra/http/controller/delete-question.controller'
 import { EditAnswerController } from '@/infra/http/controller/edit-answer.controller'
 import { EditQuestionController } from '@/infra/http/controller/edit-question.controller'
+import { FetchQuestionAnswersController } from '@/infra/http/controller/fetch-question-answers.controller'
 import { FetchRecentQuestionsController } from '@/infra/http/controller/fetch-recent-questions.controller'
 import { Module } from '@nestjs/common'
 
@@ -32,6 +34,7 @@ import { Module } from '@nestjs/common'
     AnswerQuestionController,
     DeleteAnswerController,
     EditAnswerController,
+    FetchQuestionAnswersController,
   ],
   providers: [
     JwtStrategy,
@@ -42,6 +45,7 @@ import { Module } from '@nestjs/common'
     AnswerQuestionUseCase,
     DeleteAnswerUseCase,
     EditAnswerUseCase,
+    FetchQuestionAnswersUseCase,
   ],
 })
 export class HttpModule {}

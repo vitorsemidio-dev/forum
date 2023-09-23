@@ -39,11 +39,24 @@ export class PrismaAnswersRepository implements AnswersRepository {
     return PrismaAnswerMapper.toDomain(answer)
   }
 
-  findManyByQuestionId(
+  async findManyByQuestionId(
     questionId: string,
     params: PaginationParams,
   ): Promise<Answer[]> {
-    throw new Error('Method not implemented.')
+    const perPage = 20
+    const skip = (params.page - 1) * perPage
+    const questionAttachments = await this.prisma.answer.findMany({
+      where: {
+        questionId,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      skip: skip,
+      take: perPage,
+    })
+
+    return questionAttachments.map(PrismaAnswerMapper.toDomain)
   }
 
   async save(answer: Answer): Promise<void> {
