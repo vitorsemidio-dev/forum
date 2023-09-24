@@ -8,6 +8,7 @@ import { EditQuestionUseCase } from '@/domain/forum/application/use-cases/edit-q
 import { FetchQuestionAnswersUseCase } from '@/domain/forum/application/use-cases/fetch-question-answers'
 import { FetchRecentQuestionsUseCase } from '@/domain/forum/application/use-cases/fetch-recent-questions'
 import { GetQuestionBySlugUseCase } from '@/domain/forum/application/use-cases/get-question-by-slug'
+import { UploadAndCreateAttachmentUseCase } from '@/domain/forum/application/use-cases/upload-and-create-attachment'
 import { AuthModule } from '@/infra/auth/auth.module'
 import { JwtStrategy } from '@/infra/auth/jwt.strategy'
 import { CryptographyModule } from '@/infra/cryptography/cryptography.module'
@@ -24,10 +25,12 @@ import { EditQuestionController } from '@/infra/http/controller/edit-question.co
 import { FetchQuestionAnswersController } from '@/infra/http/controller/fetch-question-answers.controller'
 import { FetchRecentQuestionsController } from '@/infra/http/controller/fetch-recent-questions.controller'
 import { GetQuestionBySlugController } from '@/infra/http/controller/get-question-by-slug.controller'
+import { UploadAttachmentController } from '@/infra/http/controller/upload-attachment.controller'
+import { StorageModule } from '@/infra/storage/storage.module'
 import { Module } from '@nestjs/common'
 
 @Module({
-  imports: [AuthModule, CryptographyModule, DatabaseModule],
+  imports: [AuthModule, CryptographyModule, DatabaseModule, StorageModule],
   controllers: [
     AnswerQuestionController,
     AuthenticateController,
@@ -41,6 +44,7 @@ import { Module } from '@nestjs/common'
     FetchQuestionAnswersController,
     FetchRecentQuestionsController,
     GetQuestionBySlugController,
+    UploadAttachmentController,
   ],
   providers: [
     AnswerQuestionUseCase,
@@ -54,6 +58,7 @@ import { Module } from '@nestjs/common'
     FetchRecentQuestionsUseCase,
     GetQuestionBySlugUseCase,
     JwtStrategy,
+    UploadAndCreateAttachmentUseCase,
   ],
 })
 export class HttpModule {}
