@@ -1,4 +1,5 @@
 import { AnswerQuestionUseCase } from '@/domain/forum/application/use-cases/answer-question'
+import { ChooseQuestionBestAnswerUseCase } from '@/domain/forum/application/use-cases/choose-question-best-answer'
 import { CreateQuestionUseCase } from '@/domain/forum/application/use-cases/create-question'
 import { DeleteAnswerUseCase } from '@/domain/forum/application/use-cases/delete-answer'
 import { DeleteQuestionUseCase } from '@/domain/forum/application/use-cases/delete-question'
@@ -13,6 +14,7 @@ import { CryptographyModule } from '@/infra/cryptography/cryptography.module'
 import { DatabaseModule } from '@/infra/database/database.module'
 import { AnswerQuestionController } from '@/infra/http/controller/answer-question.controller'
 import { AuthenticateController } from '@/infra/http/controller/authenticate.controller'
+import { ChooseQuestionBestAnswerController } from '@/infra/http/controller/choose-question-best-answer.controller'
 import { CreateAccountController } from '@/infra/http/controller/create-account.controller'
 import { CreateQuestionController } from '@/infra/http/controller/create-question.controller'
 import { DeleteAnswerController } from '@/infra/http/controller/delete-answer.controller'
@@ -27,29 +29,31 @@ import { Module } from '@nestjs/common'
 @Module({
   imports: [AuthModule, CryptographyModule, DatabaseModule],
   controllers: [
+    AnswerQuestionController,
     AuthenticateController,
+    ChooseQuestionBestAnswerController,
     CreateAccountController,
     CreateQuestionController,
-    DeleteQuestionController,
-    EditQuestionController,
-    FetchRecentQuestionsController,
-    AnswerQuestionController,
     DeleteAnswerController,
+    DeleteQuestionController,
     EditAnswerController,
+    EditQuestionController,
     FetchQuestionAnswersController,
+    FetchRecentQuestionsController,
     GetQuestionBySlugController,
   ],
   providers: [
-    JwtStrategy,
-    CreateQuestionUseCase,
-    DeleteQuestionUseCase,
-    EditQuestionUseCase,
-    FetchRecentQuestionsUseCase,
     AnswerQuestionUseCase,
+    ChooseQuestionBestAnswerUseCase,
+    CreateQuestionUseCase,
     DeleteAnswerUseCase,
+    DeleteQuestionUseCase,
     EditAnswerUseCase,
+    EditQuestionUseCase,
     FetchQuestionAnswersUseCase,
+    FetchRecentQuestionsUseCase,
     GetQuestionBySlugUseCase,
+    JwtStrategy,
   ],
 })
 export class HttpModule {}
