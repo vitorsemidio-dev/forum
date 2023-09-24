@@ -3,6 +3,8 @@ import {
   AnswerComment,
   AnswerCommentProps,
 } from '@/domain/forum/enterprise/entities/answer-comment'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { Injectable } from '@nestjs/common'
 import { fakerPtBr } from 'test/utils/faker'
 
 export function makeAnswerComment(
@@ -20,4 +22,14 @@ export function makeAnswerComment(
   )
 
   return answer
+}
+
+@Injectable()
+export class AnswerCommentFactory {
+  constructor(private readonly prismaService: PrismaService) {}
+
+  async make(override: Partial<AnswerCommentProps> = {}) {
+    const data = makeAnswerComment(override)
+    return data
+  }
 }

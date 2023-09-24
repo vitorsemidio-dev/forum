@@ -4,7 +4,7 @@ import { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { QuestionFactory } from 'test/factories/make-question'
-import { StudentFactory } from 'test/factories/make-user'
+import { StudentFactory } from 'test/factories/make-student'
 
 describe('GetQuestionBySlugController (e2e)', () => {
   let app: INestApplication

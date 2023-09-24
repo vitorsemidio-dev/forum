@@ -5,7 +5,7 @@ import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
-import { StudentFactory } from 'test/factories/make-user'
+import { StudentFactory } from 'test/factories/make-student'
 
 describe('Authenticate (E2E)', () => {
   let app: INestApplication

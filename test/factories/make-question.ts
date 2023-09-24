@@ -46,4 +46,21 @@ export class QuestionFactory {
 
     return question
   }
+
+  async makeManyPrismaQuestion(
+    quantity: number,
+    override: Partial<QuestionProps> = {},
+  ): Promise<Question[]> {
+    const questions = Array.from({ length: quantity }).map(() =>
+      makeQuestion(override),
+    )
+
+    await this.prisma.question.createMany({
+      data: questions.map((question) =>
+        PrismaQuestionMapper.toPrisma(question),
+      ),
+    })
+
+    return questions
+  }
 }

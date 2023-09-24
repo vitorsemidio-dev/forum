@@ -7,7 +7,7 @@ import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { makeAnswer } from 'test/factories/make-answer'
 import { QuestionFactory } from 'test/factories/make-question'
-import { StudentFactory } from 'test/factories/make-user'
+import { StudentFactory } from 'test/factories/make-student'
 
 describe('AnswerQuestionController (e2e)', () => {
   let app: INestApplication
@@ -33,13 +33,13 @@ describe('AnswerQuestionController (e2e)', () => {
   })
 
   test('[POST] /answer-question/:questionId', async () => {
-    const studentWhoMakeQuestion = await studentFactory.makeStudent()
-    const studentWhoAnswerQuestion = await studentFactory.makeStudent()
+    const [studentWhoAsked, studentWhoAnswered] =
+      await studentFactory.makeManyStudent(2)
     const token = jwtService.sign({
-      sub: studentWhoAnswerQuestion.id.toString(),
+      sub: studentWhoAnswered.id.toString(),
     })
     const question = await questionFactory.makePrismaQuestion({
-      authorId: studentWhoMakeQuestion.id,
+      authorId: studentWhoAsked.id,
     })
     const answer = makeAnswer()
 
@@ -59,9 +59,7 @@ describe('AnswerQuestionController (e2e)', () => {
     })
 
     expect(answerOnDatabase).toBeTruthy()
-    expect(answerOnDatabase?.authorId).toBe(
-      studentWhoAnswerQuestion.id.toString(),
-    )
+    expect(answerOnDatabase?.authorId).toBe(studentWhoAnswered.id.toString())
     expect(answerOnDatabase?.content).toBe(answer.content)
     expect(answerOnDatabase?.questionId).toBe(question.id.toString())
   })

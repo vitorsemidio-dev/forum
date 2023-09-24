@@ -7,7 +7,7 @@ import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { AnswerFactory, makeAnswer } from 'test/factories/make-answer'
 import { QuestionFactory } from 'test/factories/make-question'
-import { StudentFactory } from 'test/factories/make-user'
+import { StudentFactory } from 'test/factories/make-student'
 
 describe('EditAnswerController (e2e)', () => {
   let app: INestApplication
@@ -40,16 +40,16 @@ describe('EditAnswerController (e2e)', () => {
   })
 
   test('[PUT] /answers/:id', async () => {
-    const studentWhoMakeQuestion = await studentFactory.makeStudent()
-    const studentWhoAnswerQuestion = await studentFactory.makeStudent()
+    const [studentWhoAsked, studentWhoAnswered] =
+      await studentFactory.makeManyStudent(2)
     const token = jwtService.sign({
-      sub: studentWhoAnswerQuestion.id.toString(),
+      sub: studentWhoAnswered.id.toString(),
     })
     const question = await questionFactory.makePrismaQuestion({
-      authorId: studentWhoMakeQuestion.id,
+      authorId: studentWhoAsked.id,
     })
     const answer = await answerFactory.makePrismaAnswer({
-      authorId: studentWhoAnswerQuestion.id,
+      authorId: studentWhoAnswered.id,
       questionId: question.id,
     })
     const answerUpdate = makeAnswer()

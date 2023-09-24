@@ -7,7 +7,7 @@ import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { QuestionFactory } from 'test/factories/make-question'
-import { StudentFactory } from 'test/factories/make-user'
+import { StudentFactory } from 'test/factories/make-student'
 import { AnswerFactory } from './../../../../test/factories/make-answer'
 
 describe('ChooseQuestionBestAnswerController (e2e)', () => {
@@ -40,8 +40,8 @@ describe('ChooseQuestionBestAnswerController (e2e)', () => {
   })
 
   test('[PATCH] /answers/:answerId/choose-as-best-answer', async () => {
-    const studentWhoAsked = await studentFactory.makeStudent()
-    const studentWhoAnswered = await studentFactory.makeStudent()
+    const [studentWhoAsked, studentWhoAnswered] =
+      await studentFactory.makeManyStudent(2)
     const token = jwtService.sign({ sub: studentWhoAsked.id.toValue() })
     const question = await questionFactory.makePrismaQuestion({
       authorId: studentWhoAsked.id,

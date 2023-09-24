@@ -3,6 +3,7 @@ import {
   QuestionComment,
   QuestionCommentProps,
 } from '@/domain/forum/enterprise/entities/question-comment'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { fakerPtBr } from 'test/utils/faker'
 
 export function makeQuestionComment(
@@ -20,4 +21,13 @@ export function makeQuestionComment(
   )
 
   return question
+}
+
+export class QuestionCommentFactory {
+  constructor(private readonly prismaService: PrismaService) {}
+
+  async make(override: Partial<QuestionCommentProps> = {}) {
+    const data = makeQuestionComment(override)
+    return data
+  }
 }

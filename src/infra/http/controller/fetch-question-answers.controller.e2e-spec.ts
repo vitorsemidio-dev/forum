@@ -5,7 +5,7 @@ import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { AnswerFactory } from 'test/factories/make-answer'
 import { QuestionFactory } from 'test/factories/make-question'
-import { StudentFactory } from 'test/factories/make-user'
+import { StudentFactory } from 'test/factories/make-student'
 
 describe('FetchAnswerQuestionsController (e2e)', () => {
   let app: INestApplication
@@ -28,18 +28,16 @@ describe('FetchAnswerQuestionsController (e2e)', () => {
   })
 
   test('[GET] /questions/:questionId/answers', async () => {
-    const studentWhoAsked = await studentFactory.makeStudent()
-    const studentWhoAnswered = await studentFactory.makeStudent()
+    const [studentWhoAsked, studentWhoAnswered] =
+      await studentFactory.makeManyStudent(2)
     const question = await questionFactory.makePrismaQuestion({
       authorId: studentWhoAsked.id,
     })
-    const promises = Array.from({ length: 3 }).map(() => {
-      return answerFactory.makePrismaAnswer({
+    const [answer1, answer2, answer3] =
+      await answerFactory.makeManyPrismaAnswer(3, {
         authorId: studentWhoAnswered.id,
         questionId: question.id,
       })
-    })
-    const [answer1, answer2, answer3] = await Promise.all(promises)
 
     const response = await request(app.getHttpServer()).get(
       `/questions/${question.id.toString()}/answers`,

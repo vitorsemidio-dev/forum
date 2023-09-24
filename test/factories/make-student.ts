@@ -38,4 +38,19 @@ export class StudentFactory {
 
     return student
   }
+
+  async makeManyStudent(
+    quantity: number,
+    override: Partial<StudentProps> = {},
+  ): Promise<Student[]> {
+    const students = Array.from({ length: quantity }).map(() =>
+      makeStudent(override),
+    )
+
+    await this.prisma.user.createMany({
+      data: students.map((student) => PrismaStudentMapper.toPrisma(student)),
+    })
+
+    return students
+  }
 }

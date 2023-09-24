@@ -35,4 +35,19 @@ export class AnswerFactory {
 
     return answer
   }
+
+  async makeManyPrismaAnswer(
+    quantity: number,
+    override: Partial<AnswerProps> = {},
+  ): Promise<Answer[]> {
+    const answers = Array.from({ length: quantity }).map(() =>
+      makeAnswer(override),
+    )
+
+    await this.prisma.answer.createMany({
+      data: answers.map((answer) => PrismaAnswerMapper.toPrisma(answer)),
+    })
+
+    return answers
+  }
 }
