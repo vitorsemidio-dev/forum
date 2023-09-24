@@ -1,4 +1,5 @@
 import { PaginationParams } from '@/core/repositories/pagination-params'
+import { QuestionAttachmentsRepository } from '@/domain/forum/application/repositories/question-attachment-repository'
 import { QuestionsRepository } from '@/domain/forum/application/repositories/questions-repository'
 import { Question } from '@/domain/forum/enterprise/entities/question'
 import { PrismaQuestionMapper } from '@/infra/database/prisma/mappers/prisma-question.mapper'
@@ -7,7 +8,10 @@ import { Injectable } from '@nestjs/common'
 
 @Injectable()
 export class PrismaQuestionsRepository implements QuestionsRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private questionAttachmentsRepository: QuestionAttachmentsRepository,
+  ) {}
 
   async create(question: Question): Promise<void> {
     const data = PrismaQuestionMapper.toPrisma(question)
@@ -15,6 +19,9 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
     await this.prisma.question.create({
       data,
     })
+    await this.questionAttachmentsRepository.createMany(
+      question.attachments.getItems(),
+    )
   }
 
   async delete(id: string): Promise<void> {

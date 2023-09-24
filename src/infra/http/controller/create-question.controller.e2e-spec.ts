@@ -1,4 +1,3 @@
-import { HashGenerator } from '@/domain/forum/application/cryptography/hash-generator'
 import { Slug } from '@/domain/forum/enterprise/entities/value-objects/slug'
 import { AppModule } from '@/infra/app.module'
 import { CryptographyModule } from '@/infra/cryptography/cryptography.module'
@@ -8,27 +7,30 @@ import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
+import { AttachmentFactory } from 'test/factories/make-attachment'
 import { makeQuestion } from 'test/factories/make-question'
 import { StudentFactory } from 'test/factories/make-student'
 
 describe('CreateQuestionController (e2e)', () => {
   let app: INestApplication
   let jwtService: JwtService
-  let hashGenerator: HashGenerator
   let studentFactory: StudentFactory
+  let attachmentFactory: AttachmentFactory
+  let jwt: JwtService
   let prisma: PrismaService
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, CryptographyModule, DatabaseModule],
       controllers: [],
-      providers: [JwtService, StudentFactory],
+      providers: [JwtService, StudentFactory, AttachmentFactory],
     }).compile()
 
     app = moduleRef.createNestApplication()
     jwtService = moduleRef.get(JwtService)
-    hashGenerator = moduleRef.get(HashGenerator)
     studentFactory = moduleRef.get(StudentFactory)
+    attachmentFactory = moduleRef.get(AttachmentFactory)
+    jwt = moduleRef.get(JwtService)
     prisma = moduleRef.get(PrismaService)
 
     await app.init()
@@ -60,5 +62,39 @@ describe('CreateQuestionController (e2e)', () => {
     expect(questionOnDatabase?.slug).toBe(
       Slug.createFromText(question.title).value,
     )
+  })
+
+  test('[POST] /questions', async () => {
+    const user = await studentFactory.makeStudent()
+    const accessToken = jwt.sign({ sub: user.id.toString() })
+    const attachment1 = await attachmentFactory.makePrismaAttachment()
+    const attachment2 = await attachmentFactory.makePrismaAttachment()
+
+    const response = await request(app.getHttpServer())
+      .post('/questions')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send({
+        title: 'New question',
+        content: 'Question content',
+        attachments: [attachment1.id.toString(), attachment2.id.toString()],
+      })
+
+    expect(response.statusCode).toBe(201)
+
+    const questionOnDatabase = await prisma.question.findFirst({
+      where: {
+        title: 'New question',
+      },
+    })
+
+    expect(questionOnDatabase).toBeTruthy()
+
+    const attachmentsOnDatabase = await prisma.attachment.findMany({
+      where: {
+        questionId: questionOnDatabase?.id,
+      },
+    })
+
+    expect(attachmentsOnDatabase).toHaveLength(2)
   })
 })
