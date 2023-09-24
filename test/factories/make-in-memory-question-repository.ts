@@ -2,7 +2,19 @@ import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memo
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
 
 export function makeInMemoryQuestionRepository() {
-  const questionAttachmentsRepository =
+  const { inMemoryQuestionsRepository } =
+    makeInMemoryQuestionRepositoryWithDependencies()
+  return inMemoryQuestionsRepository
+}
+
+export function makeInMemoryQuestionRepositoryWithDependencies() {
+  const inMemoryQuestionAttachmentsRepository =
     new InMemoryQuestionAttachmentsRepository()
-  return new InMemoryQuestionsRepository(questionAttachmentsRepository)
+  const inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
+    inMemoryQuestionAttachmentsRepository,
+  )
+  return {
+    inMemoryQuestionsRepository,
+    inMemoryQuestionAttachmentsRepository,
+  }
 }

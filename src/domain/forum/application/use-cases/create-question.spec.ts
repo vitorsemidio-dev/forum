@@ -1,23 +1,32 @@
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { CreateQuestionUseCase } from '@/domain/forum/application/use-cases/create-question'
-import { makeInMemoryQuestionRepository } from 'test/factories/make-in-memory-question-repository'
+import { makeInMemoryQuestionRepositoryWithDependencies } from 'test/factories/make-in-memory-question-repository'
+import { makeQuestion } from 'test/factories/make-question'
+import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
 
 const makeSut = () => {
-  const inMemoryQuestionsRepository = makeInMemoryQuestionRepository()
+  const { inMemoryQuestionsRepository, inMemoryQuestionAttachmentsRepository } =
+    makeInMemoryQuestionRepositoryWithDependencies()
   const sut = new CreateQuestionUseCase(inMemoryQuestionsRepository)
   return {
     sut,
     inMemoryQuestionsRepository,
+    inMemoryQuestionAttachmentsRepository,
   }
 }
 
 describe('CreateQuestionUseCase', () => {
   let inMemoryQuestionsRepository: InMemoryQuestionsRepository
+  let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
+
   let sut: CreateQuestionUseCase
 
   beforeEach(() => {
     const dependencies = makeSut()
     inMemoryQuestionsRepository = dependencies.inMemoryQuestionsRepository
+    inMemoryQuestionAttachmentsRepository =
+      dependencies.inMemoryQuestionAttachmentsRepository
     sut = dependencies.sut
   })
 
@@ -37,6 +46,29 @@ describe('CreateQuestionUseCase', () => {
     expect(questionAttachments.length).toBe(1)
     expect(questionAttachments[0].attachmentId.toString()).toBe(
       'any_attachment_id',
+    )
+  })
+
+  it('should persist attachments when creating a new question', async () => {
+    const question = makeQuestion()
+    const result = await sut.execute({
+      authorId: question.authorId.toString(),
+      title: question.title,
+      content: question.content,
+      attachmentIds: ['1', '2'],
+    })
+
+    expect(result.isRight()).toBe(true)
+    expect(inMemoryQuestionAttachmentsRepository.items).toHaveLength(2)
+    expect(inMemoryQuestionAttachmentsRepository.items).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          attachmentId: new UniqueEntityId('1'),
+        }),
+        expect.objectContaining({
+          attachmentId: new UniqueEntityId('2'),
+        }),
+      ]),
     )
   })
 })
