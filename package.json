@@ -16,6 +16,8 @@
   "homepage": "https://github.com/vitorsemidio-dev/forum#readme",
   "scripts": {
     "build": "nest build",
+    "doc": "npx compodoc -p tsconfig.doc.json",
+    "doc:serve": "npm run doc && npx compodoc -s",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
@@ -49,6 +51,7 @@
     "zod-validation-error": "1.5.0"
   },
   "devDependencies": {
+    "@compodoc/compodoc": "1.1.21",
     "@faker-js/faker": "7.6.0",
     "@nestjs/cli": "^10.0.0",
     "@nestjs/schematics": "^10.0.0",

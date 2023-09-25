@@ -39,3 +39,7 @@ data/
 .env
 .env.test
 *.pem
+
+# Documenation
+
+/documentation
