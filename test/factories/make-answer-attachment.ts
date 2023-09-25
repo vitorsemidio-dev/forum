@@ -23,10 +23,12 @@ export function makeAnswerAttachment(
 }
 
 @Injectable()
-export class AttachmentFactory {
+export class AnswerAttachmentFactory {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async make(override: Partial<AnswerAttachmentProps> = {}) {
+  async makePrismaAnswerAttachment(
+    override: Partial<AnswerAttachmentProps> = {},
+  ) {
     const data = makeAnswerAttachment(override)
     return data
   }

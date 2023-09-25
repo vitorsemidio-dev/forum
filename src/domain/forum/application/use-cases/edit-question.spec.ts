@@ -125,4 +125,47 @@ describe('EditQuestionUseCase', () => {
     expect(result.isLeft()).toBe(true)
     expect(result.value).toEqual(new NotAllowedError('Not allowed.'))
   })
+
+  it('should sync new and removed attachment when editing a question', async () => {
+    const question = makeQuestion(
+      {
+        authorId: new UniqueEntityId('author-1'),
+      },
+      new UniqueEntityId('question-1'),
+    )
+
+    await inMemoryQuestionsRepository.create(question)
+
+    inMemoryQuestionAttachmentsRepository.items.push(
+      makeQuestionAttachment({
+        questionId: question.id,
+        attachmentId: new UniqueEntityId('1'),
+      }),
+      makeQuestionAttachment({
+        questionId: question.id,
+        attachmentId: new UniqueEntityId('2'),
+      }),
+    )
+
+    const result = await sut.execute({
+      questionId: question.id.toValue(),
+      authorId: 'author-1',
+      title: 'Pergunta teste',
+      content: 'Conteúdo teste',
+      attachmentIds: ['1', '3'],
+    })
+
+    expect(result.isRight()).toBe(true)
+    expect(inMemoryQuestionAttachmentsRepository.items).toHaveLength(2)
+    expect(inMemoryQuestionAttachmentsRepository.items).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          attachmentId: new UniqueEntityId('1'),
+        }),
+        expect.objectContaining({
+          attachmentId: new UniqueEntityId('3'),
+        }),
+      ]),
+    )
+  })
 })
