@@ -1,4 +1,5 @@
 import { PaginationParams } from '@/core/repositories/pagination-params'
+import { AnswerAttachmentsRepository } from '@/domain/forum/application/repositories/answer-attachment-repository'
 import { AnswersRepository } from '@/domain/forum/application/repositories/answers-repository'
 import { Answer } from '@/domain/forum/enterprise/entities/answer'
 import { PrismaAnswerMapper } from '@/infra/database/prisma/mappers/prisma-answer.mapper'
@@ -7,14 +8,19 @@ import { Injectable } from '@nestjs/common'
 
 @Injectable()
 export class PrismaAnswersRepository implements AnswersRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private answerAttachmentsRepository: AnswerAttachmentsRepository,
+  ) {}
 
   async create(answer: Answer): Promise<void> {
     const data = PrismaAnswerMapper.toPrisma(answer)
-
     await this.prisma.answer.create({
       data,
     })
+    await this.answerAttachmentsRepository.createMany(
+      answer.attachments.getItems(),
+    )
   }
 
   async delete(id: string): Promise<void> {
@@ -31,11 +37,9 @@ export class PrismaAnswersRepository implements AnswersRepository {
         id,
       },
     })
-
     if (!answer) {
       return null
     }
-
     return PrismaAnswerMapper.toDomain(answer)
   }
 
@@ -55,13 +59,11 @@ export class PrismaAnswersRepository implements AnswersRepository {
       skip: skip,
       take: perPage,
     })
-
     return questionAttachments.map(PrismaAnswerMapper.toDomain)
   }
 
   async save(answer: Answer): Promise<void> {
     const data = PrismaAnswerMapper.toPrisma(answer)
-
     await this.prisma.answer.update({
       where: {
         id: answer.id.toString(),

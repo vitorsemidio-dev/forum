@@ -7,7 +7,7 @@ import { Injectable } from '@nestjs/common'
 
 interface AnswerQuestionUseCaseRequest {
   attachmentIds: string[]
-  instructorId: string
+  authorId: string
   questionId: string
   content: string
 }
@@ -25,13 +25,13 @@ export class AnswerQuestionUseCase {
 
   async execute({
     attachmentIds,
-    instructorId,
+    authorId,
     questionId,
     content,
   }: AnswerQuestionUseCaseRequest): Promise<AnswerQuestionUseCaseResponse> {
     const answer = Answer.create({
       content,
-      authorId: new UniqueEntityId(instructorId),
+      authorId: new UniqueEntityId(authorId),
       questionId: new UniqueEntityId(questionId),
     })
 

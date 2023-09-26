@@ -10,8 +10,36 @@ export class PrismaAnswerAttachmentsRepository
 {
   constructor(private readonly prisma: PrismaService) {}
 
-  deleteManyByAnswerId(answerId: string): Promise<void> {
-    throw new Error('Method not implemented.')
+  async createMany(attachments: AnswerAttachment[]): Promise<void> {
+    if (attachments.length === 0) {
+      return
+    }
+    const data = PrismaAnswerAttachmentMapper.toPrismaUpdateMany(attachments)
+    await this.prisma.attachment.updateMany(data)
+  }
+
+  async deleteMany(attachments: AnswerAttachment[]): Promise<void> {
+    if (attachments.length === 0) {
+      return
+    }
+    const attachmentIds = attachments.map((attachment) => {
+      return attachment.id.toString()
+    })
+    await this.prisma.attachment.deleteMany({
+      where: {
+        id: {
+          in: attachmentIds,
+        },
+      },
+    })
+  }
+
+  async deleteManyByAnswerId(answerId: string): Promise<void> {
+    await this.prisma.attachment.deleteMany({
+      where: {
+        answerId,
+      },
+    })
   }
 
   async findManyByAnswerId(answerId: string): Promise<AnswerAttachment[]> {

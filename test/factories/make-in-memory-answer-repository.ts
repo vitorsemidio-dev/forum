@@ -2,6 +2,19 @@ import { InMemoryAnswerAttachmentsRepository } from 'test/repositories/in-memory
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
 
 export function makeInMemoryAnswerRepository() {
-  const answerAttachmentsRepository = new InMemoryAnswerAttachmentsRepository()
-  return new InMemoryAnswersRepository(answerAttachmentsRepository)
+  const { inMemoryAnswersRepository } =
+    makeInMemoryAnswerRepositoryWithDependencies()
+  return inMemoryAnswersRepository
+}
+
+export function makeInMemoryAnswerRepositoryWithDependencies() {
+  const inMemoryAnswerAttachmentsRepository =
+    new InMemoryAnswerAttachmentsRepository()
+  const inMemoryAnswersRepository = new InMemoryAnswersRepository(
+    inMemoryAnswerAttachmentsRepository,
+  )
+  return {
+    inMemoryAnswerAttachmentsRepository,
+    inMemoryAnswersRepository,
+  }
 }

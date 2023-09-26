@@ -8,6 +8,7 @@ import { z } from 'zod'
 
 const answerQuestionBodySchema = z.object({
   content: z.string(),
+  attachments: z.array(z.string()).default([]),
 })
 
 type AnswerQuestionBody = z.infer<typeof answerQuestionBodySchema>
@@ -24,12 +25,12 @@ export class AnswerQuestionController {
     body: AnswerQuestionBody,
     @CurrentUser() user: TokenPayload,
   ) {
-    const { content } = body
+    const { attachments, content } = body
 
     await this.answerQuestionUseCase.execute({
-      instructorId: user.sub,
+      authorId: user.sub,
       content,
-      attachmentIds: [],
+      attachmentIds: attachments,
       questionId: questionId,
     })
   }
