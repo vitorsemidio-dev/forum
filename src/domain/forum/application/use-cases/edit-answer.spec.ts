@@ -3,14 +3,14 @@ import { NotAllowedError } from '@/core/errors/not-allowed.error'
 import { EditAnswerUseCase } from '@/domain/forum/application/use-cases/edit-answer'
 import { makeAnswer } from 'test/factories/make-answer'
 import { makeAnswerAttachment } from 'test/factories/make-answer-attachment'
-import { makeInMemoryAnswerRepository } from 'test/factories/make-in-memory-answer-repository'
+import { makeInMemoryAnswerRepositoryWithDependencies } from 'test/factories/make-in-memory-answer-repository'
 import { InMemoryAnswerAttachmentsRepository } from 'test/repositories/in-memory-answer-attachments-repository'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
+import { AnswerAttachment } from '../../enterprise/entities/answer-attachment'
 
 const makeSut = () => {
-  const inMemoryAnswersRepository = makeInMemoryAnswerRepository()
-  const inMemoryAnswerAttachmentsRepository =
-    new InMemoryAnswerAttachmentsRepository()
+  const { inMemoryAnswersRepository, inMemoryAnswerAttachmentsRepository } =
+    makeInMemoryAnswerRepositoryWithDependencies()
   const sut = new EditAnswerUseCase(
     inMemoryAnswersRepository,
     inMemoryAnswerAttachmentsRepository,
@@ -111,5 +111,46 @@ describe('EditAnswerUseCase', () => {
 
     expect(result.isLeft()).toBe(true)
     expect(result.value).toEqual(new NotAllowedError('Not allowed.'))
+  })
+
+  it('should sync new and removed attachment when editing an answer', async () => {
+    const answer = makeAnswer(
+      {
+        authorId: new UniqueEntityId('author-1'),
+        questionId: new UniqueEntityId('question-1'),
+      },
+      new UniqueEntityId('answer-1'),
+    )
+
+    await inMemoryAnswersRepository.create(answer)
+
+    await inMemoryAnswerAttachmentsRepository.createMany([
+      AnswerAttachment.create({
+        answerId: answer.id,
+        attachmentId: new UniqueEntityId('attachment-1'),
+      }),
+      AnswerAttachment.create({
+        answerId: answer.id,
+        attachmentId: new UniqueEntityId('attachment-2'),
+      }),
+    ])
+
+    const result = await sut.execute({
+      answerId: answer.id.toString(),
+      attachmentIds: ['attachment-1', 'attachment-3'],
+      authorId: answer.authorId.toString(),
+      content: answer.content,
+    })
+
+    expect(result.isRight()).toBe(true)
+    expect(inMemoryAnswerAttachmentsRepository.items.length).toBe(2)
+    expect(inMemoryAnswerAttachmentsRepository.items[0]).toMatchObject({
+      answerId: answer.id,
+      attachmentId: new UniqueEntityId('attachment-1'),
+    })
+    expect(inMemoryAnswerAttachmentsRepository.items[1]).toMatchObject({
+      answerId: answer.id,
+      attachmentId: new UniqueEntityId('attachment-3'),
+    })
   })
 })

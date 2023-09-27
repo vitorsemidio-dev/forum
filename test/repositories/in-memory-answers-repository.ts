@@ -40,5 +40,11 @@ export class InMemoryAnswersRepository implements AnswersRepository {
       (item) => item.id.toValue() === answer.id.toValue(),
     )
     this.items[index] = answer
+    await this.answerAttachmentsRepository.createMany(
+      answer.attachments.getNewItems(),
+    )
+    await this.answerAttachmentsRepository.deleteMany(
+      answer.attachments.getRemovedItems(),
+    )
   }
 }
