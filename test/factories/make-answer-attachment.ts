@@ -30,6 +30,14 @@ export class AnswerAttachmentFactory {
     override: Partial<AnswerAttachmentProps> = {},
   ) {
     const data = makeAnswerAttachment(override)
+    await this.prismaService.attachment.update({
+      where: {
+        id: data.attachmentId.toString(),
+      },
+      data: {
+        answerId: data.answerId.toString(),
+      },
+    })
     return data
   }
 }
