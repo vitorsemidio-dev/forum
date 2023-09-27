@@ -69,13 +69,14 @@ describe('CreateQuestionController (e2e)', () => {
     const accessToken = jwt.sign({ sub: user.id.toString() })
     const attachment1 = await attachmentFactory.makePrismaAttachment()
     const attachment2 = await attachmentFactory.makePrismaAttachment()
+    const question = makeQuestion()
 
     const response = await request(app.getHttpServer())
       .post('/questions')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
-        title: 'New question',
-        content: 'Question content',
+        title: question.title,
+        content: question.content,
         attachments: [attachment1.id.toString(), attachment2.id.toString()],
       })
 
@@ -83,7 +84,7 @@ describe('CreateQuestionController (e2e)', () => {
 
     const questionOnDatabase = await prisma.question.findFirst({
       where: {
-        title: 'New question',
+        title: question.title,
       },
     })
 
@@ -96,5 +97,15 @@ describe('CreateQuestionController (e2e)', () => {
     })
 
     expect(attachmentsOnDatabase).toHaveLength(2)
+    expect(attachmentsOnDatabase).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: attachment1.id.toString(),
+        }),
+        expect.objectContaining({
+          id: attachment2.id.toString(),
+        }),
+      ]),
+    )
   })
 })
