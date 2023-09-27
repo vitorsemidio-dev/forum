@@ -87,12 +87,12 @@ describe('EditQuestionController (e2e)', () => {
       authorId: student.id,
     })
 
-    await questionAttachmentFactory.makePrisimaQuestionAttachment({
+    await questionAttachmentFactory.makePrismaQuestionAttachment({
       attachmentId: attachment1.id,
       questionId: question.id,
     })
 
-    await questionAttachmentFactory.makePrisimaQuestionAttachment({
+    await questionAttachmentFactory.makePrismaQuestionAttachment({
       attachmentId: attachment2.id,
       questionId: question.id,
     })

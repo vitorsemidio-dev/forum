@@ -26,7 +26,7 @@ export function makeQuestionAttachment(
 export class QuestionAttachmentFactory {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async makePrisimaQuestionAttachment(
+  async makePrismaQuestionAttachment(
     override: Partial<QuestionAttachmentProps> = {},
   ) {
     const data = makeQuestionAttachment(override)

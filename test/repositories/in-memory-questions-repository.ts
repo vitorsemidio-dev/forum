@@ -44,11 +44,9 @@ export class InMemoryQuestionsRepository implements QuestionsRepository {
       (item) => item.id.toValue() === question.id.toValue(),
     )
     this.items[index] = question
-    await this.questionAttachmentsRepository.createMany(
-      question.attachments.getNewItems(),
-    )
-    await this.questionAttachmentsRepository.deleteMany(
-      question.attachments.getRemovedItems(),
-    )
+    const getNewItems = question.attachments.getNewItems()
+    const getRemovedItems = question.attachments.getRemovedItems()
+    await this.questionAttachmentsRepository.createMany(getNewItems)
+    await this.questionAttachmentsRepository.deleteMany(getRemovedItems)
   }
 }
