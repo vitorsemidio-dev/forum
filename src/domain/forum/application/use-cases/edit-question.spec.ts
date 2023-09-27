@@ -5,13 +5,14 @@ import { makeQuestion } from 'test/factories/make-question'
 import { makeQuestionAttachment } from 'test/factories/make-question-attachment'
 import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
+import { QuestionAttachment } from '../../enterprise/entities/question-attachment'
 
 const makeSut = () => {
-  const inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
-    new InMemoryQuestionAttachmentsRepository(),
-  )
   const inMemoryQuestionAttachmentsRepository =
     new InMemoryQuestionAttachmentsRepository()
+  const inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
+    inMemoryQuestionAttachmentsRepository,
+  )
   const sut = new EditQuestionUseCase(
     inMemoryQuestionsRepository,
     inMemoryQuestionAttachmentsRepository,
@@ -126,8 +127,7 @@ describe('EditQuestionUseCase', () => {
     expect(result.value).toEqual(new NotAllowedError('Not allowed.'))
   })
 
-  // FIXME
-  it.skip('should sync new and removed attachment when editing a question', async () => {
+  it('should sync new and removed attachment when editing a question', async () => {
     const question = makeQuestion(
       {
         authorId: new UniqueEntityId('author-1'),
@@ -137,16 +137,16 @@ describe('EditQuestionUseCase', () => {
 
     await inMemoryQuestionsRepository.create(question)
 
-    inMemoryQuestionAttachmentsRepository.items.push(
-      makeQuestionAttachment({
-        questionId: question.id,
+    await inMemoryQuestionAttachmentsRepository.createMany([
+      QuestionAttachment.create({
         attachmentId: new UniqueEntityId('1'),
-      }),
-      makeQuestionAttachment({
         questionId: question.id,
-        attachmentId: new UniqueEntityId('2'),
       }),
-    )
+      QuestionAttachment.create({
+        attachmentId: new UniqueEntityId('2'),
+        questionId: question.id,
+      }),
+    ])
 
     const result = await sut.execute({
       questionId: question.id.toValue(),
