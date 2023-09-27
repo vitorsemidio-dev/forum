@@ -59,8 +59,7 @@ describe('AnswerQuestionUseCase', () => {
     )
   })
 
-  // FIXME
-  it.skip('should persist attachments when creating a new answer', async () => {
+  it('should persist attachments when creating a new answer', async () => {
     const result = await sut.execute({
       questionId: '1',
       authorId: '1',

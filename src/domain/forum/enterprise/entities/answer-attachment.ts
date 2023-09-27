@@ -34,4 +34,12 @@ export class AnswerAttachment extends Entity<AnswerAttachmentProps> {
     })
     return attachments
   }
+
+  toJson() {
+    return {
+      id: this.id.toString(),
+      attachmentId: this.attachmentId.toString(),
+      answerId: this.answerId.toString(),
+    }
+  }
 }
