@@ -99,4 +99,23 @@ export class Question extends AggregateRoot<QuestionProps> {
     this.props.attachments = attachments
     this.touch()
   }
+
+  toJson() {
+    return {
+      id: this.id.toString(),
+      authorId: this.authorId.toString(),
+      title: this.title,
+      content: this.content,
+      slug: this.slug.value,
+      createdAt: this.createdAt.toISOString(),
+      updatedAt: this.updatedAt?.toISOString(),
+      attachments: this.attachments.getItems().map((attachment) => {
+        return {
+          id: attachment.id.toString(),
+          questionId: attachment.questionId.toString(),
+        }
+      }),
+      bestAnswerId: this.bestAnswerId?.toString(),
+    }
+  }
 }

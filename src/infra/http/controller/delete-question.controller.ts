@@ -1,8 +1,19 @@
+import { NotAllowedError } from '@/core/errors/not-allowed.error'
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found.error'
 import { DeleteQuestionUseCase } from '@/domain/forum/application/use-cases/delete-question'
 import { CurrentUser } from '@/infra/auth/current-user.decorator'
 import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
 import { TokenPayload } from '@/infra/auth/jwt.strategy'
-import { Controller, Delete, HttpCode, Param, UseGuards } from '@nestjs/common'
+import {
+  Controller,
+  Delete,
+  ForbiddenException,
+  HttpCode,
+  InternalServerErrorException,
+  NotFoundException,
+  Param,
+  UseGuards,
+} from '@nestjs/common'
 
 @Controller('/questions/:id')
 @UseGuards(JwtAuthGuard)
@@ -12,9 +23,20 @@ export class DeleteQuestionController {
   @Delete()
   @HttpCode(204)
   async handle(@Param('id') id: string, @CurrentUser() user: TokenPayload) {
-    await this.deletequestionUseCase.execute({
+    const result = await this.deletequestionUseCase.execute({
       questionId: id,
       authorId: user.sub,
     })
+
+    if (result.isLeft()) {
+      switch (result.value.constructor) {
+        case ResourceNotFoundError:
+          throw new NotFoundException(result.value.message)
+        case NotAllowedError:
+          throw new ForbiddenException(result.value.message)
+        default:
+          throw new InternalServerErrorException()
+      }
+    }
   }
 }

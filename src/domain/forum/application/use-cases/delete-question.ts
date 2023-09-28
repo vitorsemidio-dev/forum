@@ -23,7 +23,6 @@ export class DeleteQuestionUseCase {
     questionId,
   }: DeleteQuestionUseCaseInput): Promise<DeleteQuestionUseCaseOutput> {
     const question = await this.questionsRepository.findById(questionId)
-
     if (!question) {
       return left(new ResourceNotFoundError('Question not found.'))
     }
