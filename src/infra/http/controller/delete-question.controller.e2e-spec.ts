@@ -5,7 +5,7 @@ import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
-import { QuestionFactory } from 'test/factories/make-question'
+import { QuestionFactory, makeQuestion } from 'test/factories/make-question'
 import { StudentFactory } from 'test/factories/make-student'
 
 describe('DeleteQuestionController (e2e)', () => {
@@ -30,7 +30,7 @@ describe('DeleteQuestionController (e2e)', () => {
     await app.init()
   })
 
-  test('[DELETE] /questions/:id', async () => {
+  test('[DELETE] /questions/:id - should delete a question', async () => {
     const user = await studentFactory.makeStudent()
     const token = jwtServicie.sign({ sub: user.id.toString() })
     const question = await questionFactory.makePrismaQuestion({
@@ -53,28 +53,24 @@ describe('DeleteQuestionController (e2e)', () => {
   })
 
   test('[DELETE] /questions/:id - should not delete question if user is not the author', async () => {
-    // Criar dois usuários: um que vai ser o autor da pergunta e outro que vai tentar deletar a pergunta
     const author = await studentFactory.makeStudent()
     const user = await studentFactory.makeStudent()
-    // Criar uma pergunta com o usuário que vai ser o autor
     const question = await questionFactory.makePrismaQuestion({
       authorId: author.id,
     })
-    // Tentar deletar a pergunta com o usuário que não é o autor
     const token = jwtServicie.sign({ sub: user.id.toString() })
+
     const response = await request(app.getHttpServer())
       .delete(`/questions/${question.id.toString()}`)
       .set('Authorization', `Bearer ${token}`)
-    // Verificar se a pergunta ainda existe no banco de dados
+
     const questionOnDatabase = await prisma.question.findFirst({
       where: {
         id: question.id.toString(),
       },
     })
     expect(questionOnDatabase).toBeTruthy()
-    // Verificar se o status code da resposta é 403
     expect(response.statusCode).toBe(403)
-    console.log(response.body)
     expect(response.body).toEqual(
       expect.objectContaining({
         message: 'Not allowed.',
@@ -84,15 +80,55 @@ describe('DeleteQuestionController (e2e)', () => {
     )
   })
 
-  test('[DELETE] /questions/:id - should not delete question if question does not exist', async () => {})
+  test('[DELETE] /questions/:id - should not delete question if question does not exist', async () => {
+    const author = await studentFactory.makeStudent()
+    const question = makeQuestion({
+      authorId: author.id,
+    })
+    const token = jwtServicie.sign({ sub: author.id.toString() })
 
-  test('[DELETE] /questions/:id - should not delete question if user is not authenticated', async () => {})
+    const response = await request(app.getHttpServer())
+      .delete(`/questions/${question.id.toString()}`)
+      .set('Authorization', `Bearer ${token}`)
 
-  // afterEach(async () => {
-  //   await prisma.$executeRaw('DELETE FROM "QuestionAttachments";')
-  //   await prisma.$executeRaw('DELETE FROM "Questions";')
-  //   await prisma.$executeRaw('DELETE FROM "Students";')
-  //   await prisma.$disconnect()
-  //   await app.close()
-  // })
+    const questionOnDatabase = await prisma.question.findFirst({
+      where: {
+        id: question.id.toString(),
+      },
+    })
+    expect(questionOnDatabase).toBeFalsy()
+    expect(response.statusCode).toBe(404)
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        message: 'Question not found.',
+        error: 'Not Found',
+        statusCode: 404,
+      }),
+    )
+  })
+
+  test('[DELETE] /questions/:id - should not delete question if user is not authenticated', async () => {
+    const author = await studentFactory.makeStudent()
+    const question = await questionFactory.makePrismaQuestion({
+      authorId: author.id,
+    })
+
+    const response = await request(app.getHttpServer()).delete(
+      `/questions/${question.id.toString()}`,
+    )
+
+    const questionOnDatabase = await prisma.question.findFirst({
+      where: {
+        id: question.id.toString(),
+      },
+    })
+    expect(questionOnDatabase).toBeTruthy()
+    expect(response.statusCode).toBe(401)
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        message: 'Unauthorized',
+        statusCode: 401,
+      }),
+    )
+  })
 })
