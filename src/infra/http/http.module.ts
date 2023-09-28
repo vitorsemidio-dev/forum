@@ -1,5 +1,6 @@
 import { AnswerQuestionUseCase } from '@/domain/forum/application/use-cases/answer-question'
 import { ChooseQuestionBestAnswerUseCase } from '@/domain/forum/application/use-cases/choose-question-best-answer'
+import { CommentOnQuestionUseCase } from '@/domain/forum/application/use-cases/comment-on-question'
 import { CreateQuestionUseCase } from '@/domain/forum/application/use-cases/create-question'
 import { DeleteAnswerUseCase } from '@/domain/forum/application/use-cases/delete-answer'
 import { DeleteQuestionUseCase } from '@/domain/forum/application/use-cases/delete-question'
@@ -28,6 +29,7 @@ import { GetQuestionBySlugController } from '@/infra/http/controller/get-questio
 import { UploadAttachmentController } from '@/infra/http/controller/upload-attachment.controller'
 import { StorageModule } from '@/infra/storage/storage.module'
 import { Module } from '@nestjs/common'
+import { CommentOnQuestionController } from './controller/comment-on-question.controller'
 
 @Module({
   imports: [AuthModule, CryptographyModule, DatabaseModule, StorageModule],
@@ -35,6 +37,7 @@ import { Module } from '@nestjs/common'
     AnswerQuestionController,
     AuthenticateController,
     ChooseQuestionBestAnswerController,
+    CommentOnQuestionController,
     CreateAccountController,
     CreateQuestionController,
     DeleteAnswerController,
@@ -49,6 +52,7 @@ import { Module } from '@nestjs/common'
   providers: [
     AnswerQuestionUseCase,
     ChooseQuestionBestAnswerUseCase,
+    CommentOnQuestionUseCase,
     CreateQuestionUseCase,
     DeleteAnswerUseCase,
     DeleteQuestionUseCase,
