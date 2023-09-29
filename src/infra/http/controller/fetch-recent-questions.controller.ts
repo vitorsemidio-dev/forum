@@ -1,4 +1,5 @@
 import { FetchRecentQuestionsUseCase } from '@/domain/forum/application/use-cases/fetch-recent-questions'
+import { Public } from '@/infra/auth/public'
 import { Controller, Get, HttpCode, Query } from '@nestjs/common'
 import { z } from 'zod'
 import { QuestionPresenter } from '../presenters/question.presenter'
@@ -10,6 +11,7 @@ const fetchRecentQuestionsQuerySchema = z.object({
 type FetchRecentQuestionsQuery = z.infer<typeof fetchRecentQuestionsQuerySchema>
 
 @Controller('/questions')
+@Public()
 export class FetchRecentQuestionsController {
   constructor(
     private readonly fetchRecentQuestionsUseCase: FetchRecentQuestionsUseCase,

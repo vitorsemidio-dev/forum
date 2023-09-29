@@ -1,5 +1,6 @@
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found.error'
 import { GetQuestionBySlugUseCase } from '@/domain/forum/application/use-cases/get-question-by-slug'
+import { Public } from '@/infra/auth/public'
 import { QuestionPresenter } from '@/infra/http/presenters/question.presenter'
 import {
   Controller,
@@ -10,6 +11,7 @@ import {
 } from '@nestjs/common'
 
 @Controller('/questions/:slug')
+@Public()
 export class GetQuestionBySlugController {
   constructor(
     private readonly getQuestionBySlugUseCase: GetQuestionBySlugUseCase,

@@ -2,7 +2,6 @@ import { NotAllowedError } from '@/core/errors/not-allowed.error'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found.error'
 import { DeleteQuestionUseCase } from '@/domain/forum/application/use-cases/delete-question'
 import { CurrentUser } from '@/infra/auth/current-user.decorator'
-import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
 import { TokenPayload } from '@/infra/auth/jwt.strategy'
 import {
   Controller,
@@ -12,11 +11,9 @@ import {
   InternalServerErrorException,
   NotFoundException,
   Param,
-  UseGuards,
 } from '@nestjs/common'
 
 @Controller('/questions/:id')
-@UseGuards(JwtAuthGuard)
 export class DeleteQuestionController {
   constructor(private readonly deletequestionUseCase: DeleteQuestionUseCase) {}
 

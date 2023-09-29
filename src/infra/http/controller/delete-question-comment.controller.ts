@@ -2,7 +2,6 @@ import { NotAllowedError } from '@/core/errors/not-allowed.error'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found.error'
 import { DeleteQuestionCommentUseCase } from '@/domain/forum/application/use-cases/delete-question-comment'
 import { CurrentUser } from '@/infra/auth/current-user.decorator'
-import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
 import { TokenPayload } from '@/infra/auth/jwt.strategy'
 import {
   Controller,
@@ -12,11 +11,9 @@ import {
   InternalServerErrorException,
   NotFoundException,
   Param,
-  UseGuards,
 } from '@nestjs/common'
 
 @Controller('/questions/comments/:id')
-@UseGuards(JwtAuthGuard)
 export class DeleteQuestionCommentController {
   constructor(private deleteQuestionComment: DeleteQuestionCommentUseCase) {}
 

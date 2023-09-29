@@ -1,9 +1,8 @@
 import { AnswerQuestionUseCase } from '@/domain/forum/application/use-cases/answer-question'
 import { CurrentUser } from '@/infra/auth/current-user.decorator'
-import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
 import { TokenPayload } from '@/infra/auth/jwt.strategy'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
-import { Body, Controller, Param, Post, UseGuards } from '@nestjs/common'
+import { Body, Controller, Param, Post } from '@nestjs/common'
 import { z } from 'zod'
 
 const answerQuestionBodySchema = z.object({
@@ -14,7 +13,6 @@ const answerQuestionBodySchema = z.object({
 type AnswerQuestionBody = z.infer<typeof answerQuestionBodySchema>
 
 @Controller('/answer-question/:questionId')
-@UseGuards(JwtAuthGuard)
 export class AnswerQuestionController {
   constructor(private readonly answerQuestionUseCase: AnswerQuestionUseCase) {}
 

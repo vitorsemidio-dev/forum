@@ -1,4 +1,5 @@
 import { HashGenerator } from '@/domain/forum/application/cryptography/hash-generator'
+import { Public } from '@/infra/auth/public'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import {
@@ -20,6 +21,7 @@ const createAccountBodySchema = z.object({
 type CreateAccountBodySchema = z.infer<typeof createAccountBodySchema>
 
 @Controller('/accounts')
+@Public()
 export class CreateAccountController {
   constructor(
     private readonly prismaService: PrismaService,

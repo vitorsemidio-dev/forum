@@ -1,16 +1,8 @@
 import { EditAnswerUseCase } from '@/domain/forum/application/use-cases/edit-answer'
 import { CurrentUser } from '@/infra/auth/current-user.decorator'
-import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
 import { TokenPayload } from '@/infra/auth/jwt.strategy'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
-import {
-  Body,
-  Controller,
-  HttpCode,
-  Param,
-  Put,
-  UseGuards,
-} from '@nestjs/common'
+import { Body, Controller, HttpCode, Param, Put } from '@nestjs/common'
 import { z } from 'zod'
 
 const editAnswerBodySchema = z.object({
@@ -21,7 +13,6 @@ const editAnswerBodySchema = z.object({
 export type EditAnswerBody = z.infer<typeof editAnswerBodySchema>
 
 @Controller('/answers/:id')
-@UseGuards(JwtAuthGuard)
 export class EditAnswerController {
   constructor(private readonly editAnswerUseCase: EditAnswerUseCase) {}
 

@@ -1,4 +1,5 @@
 import { HashComparer } from '@/domain/forum/application/cryptography/hash-comparer'
+import { Public } from '@/infra/auth/public'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import {
@@ -19,6 +20,7 @@ const authenticationBodySchema = z.object({
 type AuthenticationBodySchema = z.infer<typeof authenticationBodySchema>
 
 @Controller('/sessions')
+@Public()
 export class AuthenticateController {
   constructor(
     private jwtService: JwtService,
