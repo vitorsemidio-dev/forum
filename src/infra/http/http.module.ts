@@ -1,5 +1,6 @@
 import { AnswerQuestionUseCase } from '@/domain/forum/application/use-cases/answer-question'
 import { ChooseQuestionBestAnswerUseCase } from '@/domain/forum/application/use-cases/choose-question-best-answer'
+import { CommentOnAnswerUseCase } from '@/domain/forum/application/use-cases/comment-on-answer'
 import { CommentOnQuestionUseCase } from '@/domain/forum/application/use-cases/comment-on-question'
 import { CreateQuestionUseCase } from '@/domain/forum/application/use-cases/create-question'
 import { DeleteAnswerUseCase } from '@/domain/forum/application/use-cases/delete-answer'
@@ -18,6 +19,7 @@ import { DatabaseModule } from '@/infra/database/database.module'
 import { AnswerQuestionController } from '@/infra/http/controller/answer-question.controller'
 import { AuthenticateController } from '@/infra/http/controller/authenticate.controller'
 import { ChooseQuestionBestAnswerController } from '@/infra/http/controller/choose-question-best-answer.controller'
+import { CommentOnAnswerController } from '@/infra/http/controller/comment-on-answer.controller'
 import { CommentOnQuestionController } from '@/infra/http/controller/comment-on-question.controller'
 import { CreateAccountController } from '@/infra/http/controller/create-account.controller'
 import { CreateQuestionController } from '@/infra/http/controller/create-question.controller'
@@ -39,6 +41,7 @@ import { Module } from '@nestjs/common'
     AnswerQuestionController,
     AuthenticateController,
     ChooseQuestionBestAnswerController,
+    CommentOnAnswerController,
     CommentOnQuestionController,
     CreateAccountController,
     CreateQuestionController,
@@ -55,6 +58,7 @@ import { Module } from '@nestjs/common'
   providers: [
     AnswerQuestionUseCase,
     ChooseQuestionBestAnswerUseCase,
+    CommentOnAnswerUseCase,
     CommentOnQuestionUseCase,
     CreateQuestionUseCase,
     DeleteAnswerUseCase,
