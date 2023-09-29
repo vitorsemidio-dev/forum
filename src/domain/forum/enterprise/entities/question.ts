@@ -3,8 +3,8 @@ import dayjs from 'dayjs'
 import { AggregateRoot } from '@/core/entities/aggregate-root'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
+import { QuestionAttachmentList } from '@/domain/forum/enterprise/entities/question-attachment-list'
 import { Slug } from '@/domain/forum/enterprise/entities/value-objects/slug'
-import { QuestionAttachmentList } from './question-attachment-list'
 
 export interface QuestionProps {
   authorId: UniqueEntityId

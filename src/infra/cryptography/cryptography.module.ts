@@ -1,7 +1,7 @@
 import { HashComparer } from '@/domain/forum/application/cryptography/hash-comparer'
 import { HashGenerator } from '@/domain/forum/application/cryptography/hash-generator'
+import { BCryptHasher } from '@/infra/cryptography/bcrypt-hasher'
 import { Module } from '@nestjs/common'
-import { BCryptHasher } from './bcrypt-hasher'
 
 @Module({
   providers: [

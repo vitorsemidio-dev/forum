@@ -1,8 +1,8 @@
 import { FetchRecentQuestionsUseCase } from '@/domain/forum/application/use-cases/fetch-recent-questions'
 import { Public } from '@/infra/auth/public'
+import { QuestionPresenter } from '@/infra/http/presenters/question.presenter'
 import { Controller, Get, HttpCode, Query } from '@nestjs/common'
 import { z } from 'zod'
-import { QuestionPresenter } from '../presenters/question.presenter'
 
 const fetchRecentQuestionsQuerySchema = z.object({
   page: z.coerce.number().min(1).default(1).optional(),

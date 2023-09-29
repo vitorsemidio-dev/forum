@@ -6,9 +6,9 @@ import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
+import { AnswerFactory } from 'test/factories/make-answer'
 import { QuestionFactory } from 'test/factories/make-question'
 import { StudentFactory } from 'test/factories/make-student'
-import { AnswerFactory } from './../../../../test/factories/make-answer'
 
 describe('ChooseQuestionBestAnswerController (e2e)', () => {
   let app: INestApplication

@@ -1,6 +1,6 @@
+import { SendNotificationUseCase } from '@/domain/notification/application/use-cases/send-notification'
 import { makeNotification } from 'test/factories/make-notification'
 import { InMemoryNotificationsRepository } from 'test/repositories/in-memory-notifications-repository'
-import { SendNotificationUseCase } from './send-notification'
 
 const makeSut = () => {
   const inMemoryNotificationsRepository = new InMemoryNotificationsRepository()

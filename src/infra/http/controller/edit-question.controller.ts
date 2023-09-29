@@ -1,9 +1,9 @@
 import { EditQuestionUseCase } from '@/domain/forum/application/use-cases/edit-question'
 import { CurrentUser } from '@/infra/auth/current-user.decorator'
 import { TokenPayload } from '@/infra/auth/jwt.strategy'
+import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { Body, Controller, HttpCode, Param, Put } from '@nestjs/common'
 import { z } from 'zod'
-import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 
 const editQuestionBodySchema = z.object({
   title: z.string(),

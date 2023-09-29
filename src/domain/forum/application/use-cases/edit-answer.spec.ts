@@ -1,12 +1,12 @@
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { NotAllowedError } from '@/core/errors/not-allowed.error'
 import { EditAnswerUseCase } from '@/domain/forum/application/use-cases/edit-answer'
+import { AnswerAttachment } from '@/domain/forum/enterprise/entities/answer-attachment'
 import { makeAnswer } from 'test/factories/make-answer'
 import { makeAnswerAttachment } from 'test/factories/make-answer-attachment'
 import { makeInMemoryAnswerRepositoryWithDependencies } from 'test/factories/make-in-memory-answer-repository'
 import { InMemoryAnswerAttachmentsRepository } from 'test/repositories/in-memory-answer-attachments-repository'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
-import { AnswerAttachment } from '../../enterprise/entities/answer-attachment'
 
 const makeSut = () => {
   const { inMemoryAnswersRepository, inMemoryAnswerAttachmentsRepository } =

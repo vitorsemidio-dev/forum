@@ -1,5 +1,5 @@
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
-import { Answer } from './answer'
+import { Answer } from '@/domain/forum/enterprise/entities/answer'
 
 describe('Answer', () => {
   it('should be able to create new answer', () => {
