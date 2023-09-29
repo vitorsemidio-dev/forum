@@ -32,4 +32,6 @@ export abstract class Entity<T = any> {
   static isEntity(object: any) {
     return object instanceof Entity
   }
+
+  abstract toJson(): any
 }

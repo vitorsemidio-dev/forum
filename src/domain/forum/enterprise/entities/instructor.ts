@@ -15,4 +15,11 @@ export class Instructor extends Entity<InstructorProps> {
     )
     return instructor
   }
+
+  toJson() {
+    return {
+      id: this.id.toString(),
+      name: this.props.name,
+    }
+  }
 }

@@ -26,6 +26,10 @@ class CustomAggregate extends AggregateRoot<null> {
 
     return aggregate
   }
+
+  toJson() {
+    return {}
+  }
 }
 
 describe('domain events', () => {

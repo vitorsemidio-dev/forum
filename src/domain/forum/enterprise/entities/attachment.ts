@@ -19,4 +19,12 @@ export class Attachment extends Entity<AttachmentProps> {
     const attachment = new Attachment(props, id)
     return attachment
   }
+
+  toJson() {
+    return {
+      id: this.id.toString(),
+      title: this.title,
+      url: this.url,
+    }
+  }
 }

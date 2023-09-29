@@ -49,4 +49,15 @@ export class Notification extends Entity<NotificationProps> {
 
     return notification
   }
+
+  toJson() {
+    return {
+      id: this.id.toString(),
+      recipientId: this.recipientId.toString(),
+      title: this.title,
+      content: this.content,
+      readAt: this.readAt?.toISOString(),
+      createdAt: this.createdAt.toISOString(),
+    }
+  }
 }

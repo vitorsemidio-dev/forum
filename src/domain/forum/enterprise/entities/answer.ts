@@ -72,4 +72,18 @@ export class Answer extends AggregateRoot<AnswerProps> {
     this.props.content = content
     this.touch()
   }
+
+  toJson() {
+    return {
+      id: this.id.toString(),
+      content: this.content,
+      authorId: this.authorId.toString(),
+      questionId: this.questionId.toString(),
+      attachments: this.attachments
+        .getItems()
+        .map((attachment) => attachment.toJson()),
+      createdAt: this.createdAt.toISOString(),
+      updatedAt: this.updatedAt?.toISOString(),
+    }
+  }
 }

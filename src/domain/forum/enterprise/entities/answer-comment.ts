@@ -28,4 +28,15 @@ export class AnswerComment extends Comment<AnswerCommentProps> {
 
     return answerComment
   }
+
+  toJson() {
+    return {
+      id: this.id.toString(),
+      answerId: this.answerId.toString(),
+      authorId: this.authorId.toString(),
+      content: this.content,
+      createdAt: this.createdAt.toISOString(),
+      updatedAt: this.updatedAt?.toISOString(),
+    }
+  }
 }
