@@ -4,6 +4,7 @@ import { CommentOnAnswerUseCase } from '@/domain/forum/application/use-cases/com
 import { CommentOnQuestionUseCase } from '@/domain/forum/application/use-cases/comment-on-question'
 import { CreateQuestionUseCase } from '@/domain/forum/application/use-cases/create-question'
 import { DeleteAnswerUseCase } from '@/domain/forum/application/use-cases/delete-answer'
+import { DeleteAnswerCommentUseCase } from '@/domain/forum/application/use-cases/delete-answer-comment'
 import { DeleteQuestionUseCase } from '@/domain/forum/application/use-cases/delete-question'
 import { DeleteQuestionCommentUseCase } from '@/domain/forum/application/use-cases/delete-question-comment'
 import { EditAnswerUseCase } from '@/domain/forum/application/use-cases/edit-answer'
@@ -23,6 +24,7 @@ import { CommentOnAnswerController } from '@/infra/http/controller/comment-on-an
 import { CommentOnQuestionController } from '@/infra/http/controller/comment-on-question.controller'
 import { CreateAccountController } from '@/infra/http/controller/create-account.controller'
 import { CreateQuestionController } from '@/infra/http/controller/create-question.controller'
+import { DeleteAnswerCommentController } from '@/infra/http/controller/delete-answer-comment.controller'
 import { DeleteAnswerController } from '@/infra/http/controller/delete-answer.controller'
 import { DeleteQuestionCommentController } from '@/infra/http/controller/delete-question-comment.controller'
 import { DeleteQuestionController } from '@/infra/http/controller/delete-question.controller'
@@ -45,6 +47,7 @@ import { Module } from '@nestjs/common'
     CommentOnQuestionController,
     CreateAccountController,
     CreateQuestionController,
+    DeleteAnswerCommentController,
     DeleteAnswerController,
     DeleteQuestionController,
     DeleteQuestionCommentController,
@@ -61,6 +64,7 @@ import { Module } from '@nestjs/common'
     CommentOnAnswerUseCase,
     CommentOnQuestionUseCase,
     CreateQuestionUseCase,
+    DeleteAnswerCommentUseCase,
     DeleteAnswerUseCase,
     DeleteQuestionUseCase,
     DeleteQuestionCommentUseCase,
