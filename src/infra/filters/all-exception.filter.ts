@@ -1,6 +1,7 @@
 import { NotAllowedError } from '@/core/errors/not-allowed.error'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found.error'
 import { InvalidAttachmentTypeError } from '@/domain/forum/application/use-cases/errors/invalid-attachment-type.error'
+import { WrongCredentialsError } from '@/domain/forum/application/use-cases/errors/wrong-credentials.error'
 import {
   ArgumentsHost,
   BadRequestException,
@@ -37,6 +38,10 @@ export class AllExceptionFilter implements ExceptionFilter {
     let logInConsole = true
 
     switch (exception.constructor) {
+      case WrongCredentialsError:
+        status = HttpStatus.UNAUTHORIZED
+        message = (exception as WrongCredentialsError).message
+        break
       case ResourceNotFoundError:
         status = HttpStatus.NOT_FOUND
         message = (exception as ResourceNotFoundError).message

@@ -1,4 +1,5 @@
 import { AnswerQuestionUseCase } from '@/domain/forum/application/use-cases/answer-question'
+import { AuthenticateUseCase } from '@/domain/forum/application/use-cases/authenticate.use-case'
 import { ChooseQuestionBestAnswerUseCase } from '@/domain/forum/application/use-cases/choose-question-best-answer'
 import { CommentOnAnswerUseCase } from '@/domain/forum/application/use-cases/comment-on-answer'
 import { CommentOnQuestionUseCase } from '@/domain/forum/application/use-cases/comment-on-question'
@@ -60,6 +61,7 @@ import { Module } from '@nestjs/common'
   ],
   providers: [
     AnswerQuestionUseCase,
+    AuthenticateUseCase,
     ChooseQuestionBestAnswerUseCase,
     CommentOnAnswerUseCase,
     CommentOnQuestionUseCase,
