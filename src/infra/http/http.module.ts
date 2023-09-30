@@ -3,6 +3,7 @@ import { AuthenticateUseCase } from '@/domain/forum/application/use-cases/authen
 import { ChooseQuestionBestAnswerUseCase } from '@/domain/forum/application/use-cases/choose-question-best-answer'
 import { CommentOnAnswerUseCase } from '@/domain/forum/application/use-cases/comment-on-answer'
 import { CommentOnQuestionUseCase } from '@/domain/forum/application/use-cases/comment-on-question'
+import { CreateAccountUseCase } from '@/domain/forum/application/use-cases/create-account.use-case'
 import { CreateQuestionUseCase } from '@/domain/forum/application/use-cases/create-question'
 import { DeleteAnswerUseCase } from '@/domain/forum/application/use-cases/delete-answer'
 import { DeleteAnswerCommentUseCase } from '@/domain/forum/application/use-cases/delete-answer-comment'
@@ -65,6 +66,7 @@ import { Module } from '@nestjs/common'
     ChooseQuestionBestAnswerUseCase,
     CommentOnAnswerUseCase,
     CommentOnQuestionUseCase,
+    CreateAccountUseCase,
     CreateQuestionUseCase,
     DeleteAnswerCommentUseCase,
     DeleteAnswerUseCase,

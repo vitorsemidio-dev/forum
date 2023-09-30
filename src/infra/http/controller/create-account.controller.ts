@@ -1,15 +1,7 @@
-import { HashGenerator } from '@/domain/forum/application/cryptography/hash-generator'
+import { CreateAccountUseCase } from '@/domain/forum/application/use-cases/create-account.use-case'
 import { Public } from '@/infra/auth/public'
-import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
-import {
-  Body,
-  ConflictException,
-  Controller,
-  HttpCode,
-  Post,
-  UsePipes,
-} from '@nestjs/common'
+import { Body, Controller, HttpCode, Post } from '@nestjs/common'
 import { z } from 'zod'
 
 const createAccountBodySchema = z.object({
@@ -23,35 +15,18 @@ type CreateAccountBodySchema = z.infer<typeof createAccountBodySchema>
 @Controller('/accounts')
 @Public()
 export class CreateAccountController {
-  constructor(
-    private readonly prismaService: PrismaService,
-    private readonly hashGenerator: HashGenerator,
-  ) {}
+  constructor(private readonly createAccountUseCase: CreateAccountUseCase) {}
 
   @Post('')
-  @UsePipes(new ZodValidationPipe(createAccountBodySchema))
   @HttpCode(201)
-  async handle(@Body() body: CreateAccountBodySchema) {
-    const { name, email, password } = body
+  async handle(
+    @Body(new ZodValidationPipe(createAccountBodySchema))
+    body: CreateAccountBodySchema,
+  ) {
+    const result = await this.createAccountUseCase.execute(body)
 
-    const userAlreadyExists = await this.prismaService.user.findUnique({
-      where: {
-        email,
-      },
-    })
-
-    if (userAlreadyExists) {
-      throw new ConflictException(`User with email "${email}" already exists`)
+    if (result.isLeft()) {
+      throw result.value
     }
-
-    const passwordHash = await this.hashGenerator.hash(password)
-
-    await this.prismaService.user.create({
-      data: {
-        name,
-        email,
-        password: passwordHash,
-      },
-    })
   }
 }

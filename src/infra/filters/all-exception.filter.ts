@@ -1,6 +1,7 @@
 import { NotAllowedError } from '@/core/errors/not-allowed.error'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found.error'
 import { InvalidAttachmentTypeError } from '@/domain/forum/application/use-cases/errors/invalid-attachment-type.error'
+import { StudentAlreadyExistsError } from '@/domain/forum/application/use-cases/errors/student-already-exist.error'
 import { WrongCredentialsError } from '@/domain/forum/application/use-cases/errors/wrong-credentials.error'
 import {
   ArgumentsHost,
@@ -38,6 +39,10 @@ export class AllExceptionFilter implements ExceptionFilter {
     let logInConsole = true
 
     switch (exception.constructor) {
+      case StudentAlreadyExistsError:
+        status = HttpStatus.CONFLICT
+        message = (exception as StudentAlreadyExistsError).message
+        break
       case WrongCredentialsError:
         status = HttpStatus.UNAUTHORIZED
         message = (exception as WrongCredentialsError).message
