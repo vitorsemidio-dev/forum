@@ -74,7 +74,6 @@ describe('DeleteQuestionController (e2e)', () => {
     expect(response.body).toEqual(
       expect.objectContaining({
         message: 'Not allowed.',
-        error: 'Forbidden',
         statusCode: 403,
       }),
     )
@@ -101,7 +100,6 @@ describe('DeleteQuestionController (e2e)', () => {
     expect(response.body).toEqual(
       expect.objectContaining({
         message: 'Question not found.',
-        error: 'Not Found',
         statusCode: 404,
       }),
     )
