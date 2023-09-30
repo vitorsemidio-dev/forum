@@ -38,4 +38,19 @@ export class AnswerCommentFactory {
 
     return data
   }
+
+  async makeManyPrismaAnswerComment(
+    quantity: number,
+    override: Partial<AnswerCommentProps> = {},
+  ) {
+    const comments = Array.from({ length: quantity }).map(() =>
+      makeAnswerComment(override),
+    )
+
+    await this.prismaService.comment.createMany({
+      data: comments.map(PrismaAnswerCommentMapper.toPrisma),
+    })
+
+    return comments
+  }
 }

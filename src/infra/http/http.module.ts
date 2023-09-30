@@ -11,6 +11,7 @@ import { DeleteQuestionUseCase } from '@/domain/forum/application/use-cases/dele
 import { DeleteQuestionCommentUseCase } from '@/domain/forum/application/use-cases/delete-question-comment'
 import { EditAnswerUseCase } from '@/domain/forum/application/use-cases/edit-answer'
 import { EditQuestionUseCase } from '@/domain/forum/application/use-cases/edit-question'
+import { FetchAnswerCommentsUseCase } from '@/domain/forum/application/use-cases/fetch-answer-comments'
 import { FetchQuestionAnswersUseCase } from '@/domain/forum/application/use-cases/fetch-question-answers'
 import { FetchRecentQuestionsUseCase } from '@/domain/forum/application/use-cases/fetch-recent-questions'
 import { GetQuestionBySlugUseCase } from '@/domain/forum/application/use-cases/get-question-by-slug'
@@ -32,6 +33,7 @@ import { DeleteQuestionCommentController } from '@/infra/http/controller/delete-
 import { DeleteQuestionController } from '@/infra/http/controller/delete-question.controller'
 import { EditAnswerController } from '@/infra/http/controller/edit-answer.controller'
 import { EditQuestionController } from '@/infra/http/controller/edit-question.controller'
+import { FetchAnswerCommentsController } from '@/infra/http/controller/fetch-answer-comments.controller'
 import { FetchQuestionAnswersController } from '@/infra/http/controller/fetch-question-answers.controller'
 import { FetchRecentQuestionsController } from '@/infra/http/controller/fetch-recent-questions.controller'
 import { GetQuestionBySlugController } from '@/infra/http/controller/get-question-by-slug.controller'
@@ -55,6 +57,7 @@ import { Module } from '@nestjs/common'
     DeleteQuestionCommentController,
     EditAnswerController,
     EditQuestionController,
+    FetchAnswerCommentsController,
     FetchQuestionAnswersController,
     FetchRecentQuestionsController,
     GetQuestionBySlugController,
@@ -74,6 +77,7 @@ import { Module } from '@nestjs/common'
     DeleteQuestionCommentUseCase,
     EditAnswerUseCase,
     EditQuestionUseCase,
+    FetchAnswerCommentsUseCase,
     FetchQuestionAnswersUseCase,
     FetchRecentQuestionsUseCase,
     GetQuestionBySlugUseCase,

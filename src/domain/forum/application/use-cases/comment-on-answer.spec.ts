@@ -3,11 +3,14 @@ import { makeAnswer } from 'test/factories/make-answer'
 import { makeInMemoryAnswerRepository } from 'test/factories/make-in-memory-answer-repository'
 import { InMemoryAnswerCommentsRepository } from 'test/repositories/in-memory-answer-comments-repository'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
+import { InMemoryStudentsRepository } from 'test/repositories/in-memory-student.repository'
 
 const makeSut = () => {
   const inMemoryAnswersRepository = makeInMemoryAnswerRepository()
-  const inMemoryAnswerCommentsRepository =
-    new InMemoryAnswerCommentsRepository()
+  const inMemoryStudentsRepository = new InMemoryStudentsRepository()
+  const inMemoryAnswerCommentsRepository = new InMemoryAnswerCommentsRepository(
+    inMemoryStudentsRepository,
+  )
   const sut = new CommentOnAnswerUseCase(
     inMemoryAnswersRepository,
     inMemoryAnswerCommentsRepository,
