@@ -2,13 +2,7 @@ import { CommentOnQuestionUseCase } from '@/domain/forum/application/use-cases/c
 import { CurrentUser } from '@/infra/auth/current-user.decorator'
 import { TokenPayload } from '@/infra/auth/jwt.strategy'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
-import {
-  BadRequestException,
-  Body,
-  Controller,
-  Param,
-  Post,
-} from '@nestjs/common'
+import { Body, Controller, Param, Post } from '@nestjs/common'
 import { z } from 'zod'
 
 const commentOnQuestionBodySchema = z.object({
@@ -39,7 +33,7 @@ export class CommentOnQuestionController {
     })
 
     if (result?.isLeft()) {
-      throw new BadRequestException()
+      throw result.value
     }
   }
 }

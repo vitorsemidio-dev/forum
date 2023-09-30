@@ -29,7 +29,7 @@ export class FetchQuestionAnswersController {
     })
 
     if (result.isLeft()) {
-      throw new Error('Unexpected error')
+      throw result.value
     }
 
     const answers = result.value.answers

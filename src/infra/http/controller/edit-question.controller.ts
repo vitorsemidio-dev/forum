@@ -24,12 +24,16 @@ export class EditQuestionController {
     @CurrentUser() user: TokenPayload,
     @Body(new ZodValidationPipe(editQuestionBodySchema)) body: EditQuestionBody,
   ) {
-    await this.editQuestionUseCase.execute({
+    const result = await this.editQuestionUseCase.execute({
       authorId: user.sub,
       attachmentIds: body.attachments,
       content: body.content,
       questionId: id,
       title: body.title,
     })
+
+    if (result.isLeft()) {
+      throw result.value
+    }
   }
 }

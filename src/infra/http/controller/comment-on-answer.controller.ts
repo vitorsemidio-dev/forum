@@ -1,16 +1,8 @@
-import { ResourceNotFoundError } from '@/core/errors/resource-not-found.error'
 import { CommentOnAnswerUseCase } from '@/domain/forum/application/use-cases/comment-on-answer'
 import { CurrentUser } from '@/infra/auth/current-user.decorator'
 import { TokenPayload } from '@/infra/auth/jwt.strategy'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
-import {
-  BadRequestException,
-  Body,
-  Controller,
-  NotFoundException,
-  Param,
-  Post,
-} from '@nestjs/common'
+import { Body, Controller, Param, Post } from '@nestjs/common'
 import { z } from 'zod'
 
 const commentOnAnswerBodySchema = z.object({
@@ -41,12 +33,7 @@ export class CommentOnAnswerController {
     })
 
     if (result.isLeft()) {
-      switch (result.value.constructor) {
-        case ResourceNotFoundError:
-          throw new NotFoundException(result.value.message)
-        default:
-          throw new BadRequestException()
-      }
+      throw result.value
     }
   }
 }

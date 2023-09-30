@@ -1,7 +1,5 @@
-import { InvalidAttachmentTypeError } from '@/domain/forum/application/use-cases/errors/invalid-attachment-type.error'
 import { UploadAndCreateAttachmentUseCase } from '@/domain/forum/application/use-cases/upload-and-create-attachment'
 import {
-  BadRequestException,
   Controller,
   FileTypeValidator,
   MaxFileSizeValidator,
@@ -42,14 +40,7 @@ export class UploadAttachmentController {
     })
 
     if (result.isLeft()) {
-      const error = result.value
-
-      switch (error.constructor) {
-        case InvalidAttachmentTypeError:
-          throw new BadRequestException(error.message)
-        default:
-          throw new BadRequestException(error.message)
-      }
+      throw result.value
     }
 
     const { attachment } = result.value

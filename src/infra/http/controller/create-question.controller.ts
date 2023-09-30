@@ -25,11 +25,15 @@ export class CreateQuestionController {
   ) {
     const { attachments, content, title } = body
 
-    await this.createQuestionUseCase.execute({
+    const result = await this.createQuestionUseCase.execute({
       attachmentIds: attachments,
       authorId: user.sub,
       content,
       title,
     })
+
+    if (result.isLeft()) {
+      throw result.value
+    }
   }
 }

@@ -10,9 +10,13 @@ export class DeleteAnswerController {
   @Delete()
   @HttpCode(204)
   async handle(@Param('id') id: string, @CurrentUser() user: TokenPayload) {
-    await this.deleteanswerUseCase.execute({
+    const result = await this.deleteanswerUseCase.execute({
       answerId: id,
       authorId: user.sub,
     })
+
+    if (result.isLeft()) {
+      throw result.value
+    }
   }
 }

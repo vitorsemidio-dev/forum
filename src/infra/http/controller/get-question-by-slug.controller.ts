@@ -1,14 +1,7 @@
-import { ResourceNotFoundError } from '@/core/errors/resource-not-found.error'
 import { GetQuestionBySlugUseCase } from '@/domain/forum/application/use-cases/get-question-by-slug'
 import { Public } from '@/infra/auth/public'
 import { QuestionPresenter } from '@/infra/http/presenters/question.presenter'
-import {
-  Controller,
-  Get,
-  HttpCode,
-  NotFoundException,
-  Param,
-} from '@nestjs/common'
+import { Controller, Get, HttpCode, Param } from '@nestjs/common'
 
 @Controller('/questions/:slug')
 @Public()
@@ -25,12 +18,7 @@ export class GetQuestionBySlugController {
     })
 
     if (result.isLeft()) {
-      switch (result.value.constructor) {
-        case ResourceNotFoundError:
-          throw new NotFoundException(result.value.message)
-        default:
-          throw new Error('Unexpected error')
-      }
+      throw result.value
     }
 
     const question = result.value.question

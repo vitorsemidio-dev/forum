@@ -15,9 +15,13 @@ export class ChooseQuestionBestAnswerController {
     @CurrentUser() user: TokenPayload,
     @Param('answerId') answerId: string,
   ) {
-    await this.chooseQuestionBestAnswerUseCase.execute({
+    const result = await this.chooseQuestionBestAnswerUseCase.execute({
       answerId,
       authorId: user.sub,
     })
+
+    if (result.isLeft()) {
+      throw result.value
+    }
   }
 }

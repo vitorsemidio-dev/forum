@@ -23,11 +23,15 @@ export class EditAnswerController {
     @CurrentUser() user: TokenPayload,
     @Body(new ZodValidationPipe(editAnswerBodySchema)) body: EditAnswerBody,
   ) {
-    await this.editAnswerUseCase.execute({
+    const result = await this.editAnswerUseCase.execute({
       authorId: user.sub,
       attachmentIds: body.attachments,
       content: body.content,
       answerId: id,
     })
+
+    if (result.isLeft()) {
+      throw result.value
+    }
   }
 }
