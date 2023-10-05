@@ -35,11 +35,13 @@ describe('GetQuestionBySlugController (e2e)', () => {
     )
 
     expect(response.statusCode).toBe(200)
-    expect(response.body).toEqual(
+    expect(response.body.question).toEqual(
       expect.objectContaining({
-        id: question.id.toValue(),
         title: question.title,
         slug: question.slug.value,
+        author: student.name,
+        authorId: student.id.toString(),
+        questionId: question.id.toString(),
       }),
     )
   })
