@@ -2,25 +2,29 @@ import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { NotAllowedError } from '@/core/errors/not-allowed.error'
 import { EditQuestionUseCase } from '@/domain/forum/application/use-cases/edit-question'
 import { QuestionAttachment } from '@/domain/forum/enterprise/entities/question-attachment'
+import { makeInMemoryQuestionRepositoryWithDependencies } from 'test/factories/make-in-memory-question-repository'
 import { makeQuestion } from 'test/factories/make-question'
 import { makeQuestionAttachment } from 'test/factories/make-question-attachment'
 import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
 
 const makeSut = () => {
-  const inMemoryQuestionAttachmentsRepository =
-    new InMemoryQuestionAttachmentsRepository()
-  const inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
+  const {
+    inMemoryQuestionsRepository,
+    inMemoryAttachmentsRepository,
     inMemoryQuestionAttachmentsRepository,
-  )
+    inMemoryStudentsRepository,
+  } = makeInMemoryQuestionRepositoryWithDependencies()
   const sut = new EditQuestionUseCase(
     inMemoryQuestionsRepository,
     inMemoryQuestionAttachmentsRepository,
   )
   return {
     sut,
-    inMemoryQuestionAttachmentsRepository,
     inMemoryQuestionsRepository,
+    inMemoryAttachmentsRepository,
+    inMemoryQuestionAttachmentsRepository,
+    inMemoryStudentsRepository,
   }
 }
 

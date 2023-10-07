@@ -1,22 +1,26 @@
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { NotAllowedError } from '@/core/errors/not-allowed.error'
 import { DeleteQuestionUseCase } from '@/domain/forum/application/use-cases/delete-question'
+import { makeInMemoryQuestionRepositoryWithDependencies } from 'test/factories/make-in-memory-question-repository'
 import { makeQuestion } from 'test/factories/make-question'
 import { makeQuestionAttachment } from 'test/factories/make-question-attachment'
 import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
 
 const makeSut = () => {
-  const inMemoryQuestionAttachmentsRepository =
-    new InMemoryQuestionAttachmentsRepository()
-  const inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
+  const {
+    inMemoryQuestionsRepository,
+    inMemoryAttachmentsRepository,
     inMemoryQuestionAttachmentsRepository,
-  )
+    inMemoryStudentsRepository,
+  } = makeInMemoryQuestionRepositoryWithDependencies()
   const sut = new DeleteQuestionUseCase(inMemoryQuestionsRepository)
   return {
     sut,
-    inMemoryQuestionAttachmentsRepository,
     inMemoryQuestionsRepository,
+    inMemoryAttachmentsRepository,
+    inMemoryQuestionAttachmentsRepository,
+    inMemoryStudentsRepository,
   }
 }
 
