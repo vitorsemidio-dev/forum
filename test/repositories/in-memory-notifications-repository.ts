@@ -12,8 +12,8 @@ export class InMemoryNotificationsRepository
     this.items.push(notification)
   }
 
-  async findById(id: string): Promise<Notification | undefined> {
-    return this.items.find((item) => item.id.toString() === id)
+  async findById(id: string): Promise<Notification | null> {
+    return this.items.find((item) => item.id.toString() === id) ?? null
   }
 
   async save(notification: Notification): Promise<void> {
