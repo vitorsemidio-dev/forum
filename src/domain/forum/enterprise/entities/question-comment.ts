@@ -4,6 +4,7 @@ import {
   Comment,
   CommentProps,
 } from '@/domain/forum/enterprise/entities/comment'
+import { QuestionCommentCreatedEvent } from '../events/question-comment-created-event'
 
 export interface QuestionCommentProps extends CommentProps {
   questionId: UniqueEntityId
@@ -25,6 +26,14 @@ export class QuestionComment extends Comment<QuestionCommentProps> {
       },
       id,
     )
+
+    const isCreating = !id
+
+    if (isCreating) {
+      questionComment.addDomainEvent(
+        new QuestionCommentCreatedEvent(questionComment),
+      )
+    }
 
     return questionComment
   }
