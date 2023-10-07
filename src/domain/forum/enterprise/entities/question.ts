@@ -5,6 +5,7 @@ import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 import { QuestionAttachmentList } from '@/domain/forum/enterprise/entities/question-attachment-list'
 import { Slug } from '@/domain/forum/enterprise/entities/value-objects/slug'
+import { QuestionBestAnswerChosenEvent } from '@/domain/forum/enterprise/events/question-best-answer-chosen-event'
 
 export interface QuestionProps {
   authorId: UniqueEntityId
@@ -91,6 +92,12 @@ export class Question extends AggregateRoot<QuestionProps> {
   }
 
   set bestAnswerId(bestAnswerId: UniqueEntityId | undefined | null) {
+    if (
+      bestAnswerId &&
+      bestAnswerId.toString() !== this.bestAnswerId?.toString()
+    ) {
+      this.addDomainEvent(new QuestionBestAnswerChosenEvent(this, bestAnswerId))
+    }
     this.props.bestAnswerId = bestAnswerId
     this.touch()
   }
