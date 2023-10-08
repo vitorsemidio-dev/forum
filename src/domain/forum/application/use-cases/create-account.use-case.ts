@@ -1,9 +1,8 @@
 import { Either, left, right } from '@/core/either'
 import { HashGenerator } from '@/domain/forum/application/cryptography/hash-generator'
+import { StudentsRepository } from '@/domain/forum/application/repositories/student.repository'
 import { StudentAlreadyExistsError } from '@/domain/forum/application/use-cases/errors/student-already-exist.error'
 import { Student } from '@/domain/forum/enterprise/entities/student'
-import { PrismaStudentMapper } from '@/infra/database/prisma/mappers/prisma-user.mapper'
-import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { Injectable } from '@nestjs/common'
 
 interface CreateAccountCaseRequest {
@@ -22,7 +21,7 @@ type CreateAccountCaseResponse = Either<
 @Injectable()
 export class CreateAccountUseCase {
   constructor(
-    private readonly prismaService: PrismaService,
+    private readonly studentsRepository: StudentsRepository,
     private readonly hashGenerator: HashGenerator,
   ) {}
   async execute({
@@ -30,11 +29,7 @@ export class CreateAccountUseCase {
     email,
     password,
   }: CreateAccountCaseRequest): Promise<CreateAccountCaseResponse> {
-    const userAlreadyExists = await this.prismaService.user.findUnique({
-      where: {
-        email,
-      },
-    })
+    const userAlreadyExists = await this.studentsRepository.findByEmail(email)
 
     if (userAlreadyExists) {
       return left(new StudentAlreadyExistsError(email))
@@ -48,9 +43,7 @@ export class CreateAccountUseCase {
       password: passwordHash,
     })
 
-    await this.prismaService.user.create({
-      data: PrismaStudentMapper.toPrisma(student),
-    })
+    await this.studentsRepository.create(student)
 
     return right({
       student,

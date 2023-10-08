@@ -1,5 +1,6 @@
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Student } from '@/domain/forum/enterprise/entities/student'
-import { Prisma } from '@prisma/client'
+import { Prisma, User as PrismaUser } from '@prisma/client'
 
 export class PrismaStudentMapper {
   static toPrisma(student: Student): Prisma.UserUncheckedCreateInput {
@@ -9,5 +10,16 @@ export class PrismaStudentMapper {
       email: student.email,
       password: student.password,
     }
+  }
+
+  static toDomain(user: PrismaUser): Student {
+    return Student.create(
+      {
+        name: user.name,
+        email: user.email,
+        password: user.password,
+      },
+      new UniqueEntityId(user.id),
+    )
   }
 }
