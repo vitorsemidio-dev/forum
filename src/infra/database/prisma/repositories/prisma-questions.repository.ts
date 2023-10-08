@@ -1,3 +1,4 @@
+import { DomainEvents } from '@/core/events/domain-events'
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { QuestionAttachmentsRepository } from '@/domain/forum/application/repositories/question-attachment-repository'
 import { QuestionsRepository } from '@/domain/forum/application/repositories/questions-repository'
@@ -23,6 +24,7 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
     await this.questionAttachmentsRepository.createMany(
       question.attachments.getItems(),
     )
+    DomainEvents.dispatchEventsForAggregate(question.id)
   }
 
   async delete(id: string): Promise<void> {
@@ -111,5 +113,6 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
         question.attachments.getRemovedItems(),
       ),
     ])
+    DomainEvents.dispatchEventsForAggregate(question.id)
   }
 }
